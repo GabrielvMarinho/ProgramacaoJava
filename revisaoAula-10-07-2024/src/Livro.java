@@ -9,34 +9,33 @@ public class Livro extends ItemBiblioteca{
         this.isbn = isbn;
     }
 
-    @Override
-    public void setPreco(double preco) {
-        super.setPreco(preco);
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
-    @Override
-    public double getPreco() {
-        return super.getPreco();
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getIsbn() {
+        return isbn;
     }
 
     @Override
-    public void setQuantidade(int quantidade) {
-        super.setQuantidade(quantidade);
-    }
-    @Override
-    public int getQuantidade() {
-        return super.getQuantidade();
-    }
-
-    @Override
-
     public String toString() {
         return super.toString()+
-                "\nautor='" + autor + '\'' +
-                "\nisbn='" + isbn + '\'' +
+                "\nautor='" + this.autor + '\'' +
+                "\nisbn='" + this.isbn + '\'' +
                 "\n}";
     }
 
-    public double calcularValorTotalComDesconto(double percentual){
+    @Override
+    public double calcularValorTotalComDesconto(double percentual) {
         return 0.0;
-    };
+    }
 }

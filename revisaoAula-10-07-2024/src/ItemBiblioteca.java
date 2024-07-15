@@ -16,17 +16,13 @@ public abstract class ItemBiblioteca {
     public String getTitulo() {
         return titulo;
     }
-
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
     public int getQuantidade() {
         return quantidade;
     }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
+    public void setPreco(double preco) { this.preco = preco; }
     public double getPreco() {
         return preco;
     }
@@ -34,9 +30,9 @@ public abstract class ItemBiblioteca {
     @Override
     public String toString() {
         return "ItemBiblioteca{" +
-                "\ntitulo='" + titulo + '\'' +
-                "\npreco=" + preco +
-                "\nquantidade=" + quantidade;
+                "\ntitulo='" + this.titulo + '\'' +
+                "\npreco=" + this.preco +
+                "\nquantidade=" + this.quantidade;
     }
 
     public abstract double calcularValorTotalComDesconto(double percentual);

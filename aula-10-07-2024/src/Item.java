@@ -24,7 +24,6 @@ public abstract class Item {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
     public String getTitulo() {
         return titulo;
     }
