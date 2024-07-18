@@ -1,3 +1,4 @@
+import java.awt.event.ItemEvent;
 import java.util.Scanner;
 // -> comentario
 /// -> tarefa
@@ -7,6 +8,7 @@ public class Main {
         int contTentativasSenhas=0;
         Professor professor = new Professor();
         boolean login=false;
+
 
 
         //checando a senha -----------------------------------------------------------------------
@@ -32,7 +34,8 @@ public class Main {
             System.out.println("Digite sua escolha -> \n[ 0 ] Cadastrar Forma Geométrica \n[ 1 ] Listar Formas\n");
             switch(sc.nextInt()){
                 case 0:
-                    System.out.println("Digite qual forma cadastrar -> \n[ 0 ] Quadrado\n[ 1 ] Círculo\n[ 2 ] Triângulo { EM MANUTENÇÃO }\n" +
+
+                    System.out.println("Digite qual forma cadastrar -> \n[ 0 ] Quadrado\n[ 1 ] Círculo\n[ 2 ] Triângulo\n" +
                             "[ 3 ] Retângulo\n");
                     switch(sc.nextInt()){
                         case 0:
@@ -42,6 +45,8 @@ public class Main {
                                     double lado = sc.nextDouble();
                                     FormaGeometrica quadrado = new Quadrado(lado);
                                     professor.adicionarForma(quadrado);
+                                    System.out.println("VOCE CADASTROU UM QUADRADO: ");
+                                    System.out.println(professor.getLastForma().toString());
                                     break;
                                 } catch (IllegalArgumentException e) {
                                     System.err.println("ERRO: " + e.getMessage());
@@ -56,6 +61,8 @@ public class Main {
                                     double raio = sc.nextDouble();
                                     FormaGeometrica circulo = new Circulo(raio);
                                     professor.adicionarForma(circulo);
+                                    System.out.println("VOCE CADASTROU UM CIRCULO: ");
+                                    System.out.println(professor.getLastForma().toString());
                                     break;
                                 }catch(IllegalArgumentException e){
                                     System.err.println("ERRO: "+e.getMessage());
@@ -65,9 +72,23 @@ public class Main {
                             break;
 
                         case 2:
-
+                            do {
+                                try {
+                                    System.out.println("Digite o valor da hipotenusa: ");
+                                    double hipotenusa = sc.nextDouble();
+                                    System.out.println("Digite o valor do primeiro cateto: ");
+                                    double cateto1 = sc.nextDouble();
+                                    System.out.println("Digite o valor do segundo cateto: ");
+                                    double cateto2 = sc.nextDouble();
+                                    professor.adicionarForma(Triangulo.retornarTipoEspecifico(hipotenusa, cateto1, cateto2));
+                                    System.out.println("VOCE CADASTROU UM TRIANGULO: ");
+                                    System.out.println(professor.getLastForma().toString());
+                                    break;
+                                } catch (IllegalArgumentException e) {
+                                    System.err.println("ERRO: " + e.getMessage());
+                                }
+                            }while(true);
                             break;
-
                         case 3:
                             do{
                                 try{
@@ -77,26 +98,41 @@ public class Main {
                                     double altura = sc.nextDouble();
                                     FormaGeometrica retangulo = new Retangulo(largura, altura);
                                     professor.adicionarForma(retangulo);
+                                    System.out.println("VOCE CADASTROU UM RETANGULO: ");
+                                    System.out.println(professor.getLastForma().toString());
                                     break;
                                 }catch(IllegalArgumentException e){
                                     System.err.println("ERRO: "+e.getMessage());
                                 }
                             }while(true);
-
                             break;
 
                     }
                     break;
 
                 case 1:
-                    System.out.println("Digite qual forma listar -> [ 0 ] TODOS \n[ 1 ] Quadrado\n[ 2 ] Círculo\n[ 3 ] Triângulo { EM MANUTENÇÃO }\n" +
+                    System.out.println("Digite qual forma listar -> [ 0 ] TODOS \n[ 1 ] Quadrado\n[ 2 ] Círculo\n[ 3 ] Triângulo \n" +
                             "[ 4 ] Retângulo\n");
                     switch (sc.nextInt()){
                         case 0:
                             professor.listarFormas();
                             break;
-                        case 1:///descobrir como listar uma classe específica
-                            professor.listarFormas();
+                        case 1:
+                            professor.listarFormas("Quadrado");
+                            break;
+                        case 2:
+                            professor.listarFormas("Circulo");
+                            break;
+                        case 3:
+                            System.out.println("Isosceles--------------");
+                            professor.listarFormas("Isosceles");
+                            System.out.println("Escalenos--------------");
+                            professor.listarFormas("Escaleno");
+                            System.out.println("Equilateros--------------");
+                            professor.listarFormas("Equilatero");
+                            break;
+                        case 4:
+                            professor.listarFormas("Retangulo");
                             break;
                     }
                     break;
@@ -107,4 +143,6 @@ public class Main {
         }while(login==true);
 
     }
+
+
 }

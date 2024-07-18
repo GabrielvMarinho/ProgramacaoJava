@@ -2,6 +2,11 @@ public class Equilatero extends Triangulo{
 
     private double lado;
 
+    public Equilatero(double lado){
+        this.lado = lado;
+        setArea(calcularArea());
+        setPerimetro(calcularPerimetro());
+    }
     public void setLado(double lado) {
         this.lado = lado;
     }
@@ -24,7 +29,6 @@ public class Equilatero extends Triangulo{
     @Override
     public String toString() {
         return super.toString()+
-                "lado=" + lado +
-                '}';
+                "\nlado: " + lado;
     }
 }

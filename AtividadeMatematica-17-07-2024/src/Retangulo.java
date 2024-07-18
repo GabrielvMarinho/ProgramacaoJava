@@ -6,7 +6,8 @@ public class Retangulo extends FormaGeometrica{
     Retangulo(double altura, double largura){
         this.altura = altura;
         this.largura = largura;
-
+        setArea(calcularArea());
+        setPerimetro(calcularPerimetro());
         if(!(altura>0)||!(largura>0)){
             throw new IllegalArgumentException("VALORES NÂO PODEM SER IGUAIS OU MENORES QUE 0");
         }
@@ -43,8 +44,7 @@ public class Retangulo extends FormaGeometrica{
     @Override
     public String toString() {
         return super.toString()+
-                "altura=" + altura +
-                ", largura=" + largura +
-                '}';
+                "\naltura: " + altura +
+                "\nlargura: " + largura;
     }
 }

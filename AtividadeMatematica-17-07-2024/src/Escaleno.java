@@ -4,6 +4,14 @@ public class Escaleno extends Triangulo{
     private double cateto1;
     private double cateto2;
 
+    public Escaleno(double hipotenusa, double cateto1, double cateto2){
+        this.hipotenusa = hipotenusa;
+        this.cateto1 = cateto1;
+        this.cateto2 = cateto2;
+        setArea(calcularArea());
+        setPerimetro(calcularPerimetro());
+    }
+
     public void setCateto1(double cateto1) {
         this.cateto1 = cateto1;
     }
@@ -36,16 +44,17 @@ public class Escaleno extends Triangulo{
 
     @Override
     public double calcularPerimetro() {
-        //fazer a checagem//////////////////////////////////////////////////////////////////////////////////
-        return 0;
+        double perimetro = hipotenusa+cateto2+cateto1;
+        setPerimetro(perimetro);
+        return perimetro;
+
     }
 
     @Override
     public String toString() {
         return super.toString() +
-                "hipotenusa=" + hipotenusa +
-                ", cateto1=" + cateto1 +
-                ", cateto2=" + cateto2 +
-                '}';
+                "\nhipotenusa: " + hipotenusa +
+                "\ncateto1: " + cateto1 +
+                "\ncateto2: " + cateto2;
     }
 }

@@ -6,8 +6,8 @@ public class Circulo extends FormaGeometrica{
     public Circulo(double raio){
         this.raio = raio;
         this.diametro= raio*2;
-        calcularPerimetro();
-        calcularArea();
+        setArea(calcularArea());
+        setPerimetro(calcularPerimetro());
         if(!(raio>0)){
             throw new IllegalArgumentException("VALORES NÂO PODEM SER IGUAIS OU MENORES QUE 0");
         }
@@ -38,8 +38,7 @@ public class Circulo extends FormaGeometrica{
     @Override
     public String toString() {
         return super.toString()+
-                "raio=" + raio +
-                ", diametro=" + diametro +
-                '}';
+                "\nraio: " + raio +
+                "\ndiametro: " + diametro;
     }
 }

@@ -8,6 +8,8 @@ public class Quadrado extends FormaGeometrica{
     }
     public Quadrado(double lado){
         this.lado = lado;
+        setArea(calcularArea());
+        setPerimetro(calcularPerimetro());
         if(!(lado>0)){
             throw new IllegalArgumentException("VALORES NÂO PODEM SER IGUAIS OU MENORES QUE 0");
         }
@@ -29,7 +31,6 @@ public class Quadrado extends FormaGeometrica{
     @Override
     public String toString() {
         return super.toString() +
-                "lado=" + lado +
-                '}';
+                "\nlado: " + lado;
     }
 }

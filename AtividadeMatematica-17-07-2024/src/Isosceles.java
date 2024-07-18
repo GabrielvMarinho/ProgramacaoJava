@@ -6,6 +6,8 @@ public class Isosceles extends Triangulo{
     public Isosceles(double ladosIgual, double ladoDiferente){
         this.ladoDiferente = ladoDiferente;
         this.ladosIgual = ladosIgual;
+        setArea(calcularArea());
+        setPerimetro(calcularPerimetro());
     }
     public void setLadoDiferente(double ladoDiferente) {
         this.ladoDiferente = ladoDiferente;
@@ -38,8 +40,7 @@ public class Isosceles extends Triangulo{
     @Override
     public String toString() {
         return super.toString()+
-                "ladosIgual=" + ladosIgual +
-                ", ladoDiferente=" + ladoDiferente +
-                '}';
+                "\nladosIgual: " + ladosIgual +
+                "\nladoDiferente: " + ladoDiferente;
     }
 }
