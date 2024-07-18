@@ -17,13 +17,13 @@ public class Equilatero extends Triangulo{
 
     @Override
     public double calcularPerimetro() {
-        //fazer a checagem//////////////////////////////////////////////////////////////////////////////////
+        double area = (Math.sqrt(3)/4)*(lado*lado);
         return 0;
     }
     @Override
     public double calcularArea() {
-        //fazer a checagem//////////////////////////////////////////////////////////////////////////////////
-        return 0;
+        double perimetro = lado*3;
+        return perimetro;
     }
 
     @Override

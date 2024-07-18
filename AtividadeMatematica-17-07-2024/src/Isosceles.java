@@ -27,14 +27,15 @@ public class Isosceles extends Triangulo{
 
     @Override
     public double calcularPerimetro() {
-        //fazer a checagem//////////////////////////////////////////////////////////////////////////////////
+        double perimetro = ladoDiferente+2*ladosIgual;
         return 0;
     }
 
     @Override
     public double calcularArea() {
-        //fazer a checagem//////////////////////////////////////////////////////////////////////////////////
-        return 0;
+        double altura = Math.sqrt(ladosIgual*ladosIgual - (ladoDiferente*ladoDiferente)/4);
+        double area = ladoDiferente*altura/2;
+        return area;
     }
 
     @Override

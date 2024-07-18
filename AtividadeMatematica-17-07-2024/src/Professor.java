@@ -18,35 +18,58 @@ public class Professor {
     }
 
     public void listarFormas(){
+        System.out.println("Quadrados_____________________");
         for(FormaGeometrica forma : listaFormas){
-            System.out.println("Quadrados");
             if(forma.getClass().getName().equals("Quadrado")){
                 System.out.println(forma.toString());
+                System.out.println("_____________________");
             }
         }
+        System.out.println("Círculos_____________________");
         for(FormaGeometrica forma : listaFormas){
-            System.out.println("Círculos");
             if(forma.getClass().getName().equals("Circulo")){
                 System.out.println(forma.toString());
+                System.out.println("_____________________");
+
             }
         }
+        System.out.println("Triângulos_____________________");
+        System.out.println("Isosceles-------------------");
         for(FormaGeometrica forma : listaFormas){
-            System.out.println("Triângulos");
-            if(forma.getClass().getName().equals("Triangulo")){
+            if(forma.getClass().getName().equals("Isosceles")){
                 System.out.println(forma.toString());
+                System.out.println("_____________________");
             }
         }
+        System.out.println("Escaleno-------------------");
         for(FormaGeometrica forma : listaFormas){
-            System.out.println("Retângulos");
-            if(forma.getClass().getName().equals("Retângulo")){
+            if(forma.getClass().getName().equals("Escaleno")){
                 System.out.println(forma.toString());
+                System.out.println("_____________________");
+            }
+        }
+        System.out.println("Equilatero-------------------");
+        for(FormaGeometrica forma : listaFormas){
+            if(forma.getClass().getName().equals("Equilatero")){
+                System.out.println(forma.toString());
+                System.out.println("_____________________");
+            }
+        }
+        System.out.println("Retângulos_____________________");
+        for(FormaGeometrica forma : listaFormas){
+            if(forma.getClass().getName().equals("Retangulo")){
+                System.out.println(forma.toString());
+                System.out.println("_____________________");
+
             }
         }
     }
     public void listarFormas(String classe){
+        System.out.println(classe+"_____________________");
         for(FormaGeometrica forma : listaFormas){
             if(forma.getClass().getName().equals(classe)){
                 System.out.println(forma.toString());
+                System.out.println("_____________________");
             }
         }
     }

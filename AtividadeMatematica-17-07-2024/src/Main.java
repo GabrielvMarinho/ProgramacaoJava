@@ -31,7 +31,7 @@ public class Main {
         //login realizado -----------------------------------------------------------------------
 
         do{
-            System.out.println("Digite sua escolha -> \n[ 0 ] Cadastrar Forma Geométrica \n[ 1 ] Listar Formas\n");
+            System.out.println("\n\n\n\nDigite sua escolha -> \n[ 0 ] Cadastrar Forma Geométrica \n[ 1 ] Listar Formas\n");
             switch(sc.nextInt()){
                 case 0:
 

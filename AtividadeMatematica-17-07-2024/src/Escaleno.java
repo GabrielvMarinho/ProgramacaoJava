@@ -8,8 +8,8 @@ public class Escaleno extends Triangulo{
         this.hipotenusa = hipotenusa;
         this.cateto1 = cateto1;
         this.cateto2 = cateto2;
-        setArea(calcularArea());
         setPerimetro(calcularPerimetro());
+        setArea(calcularArea());
     }
 
     public void setCateto1(double cateto1) {
@@ -38,8 +38,9 @@ public class Escaleno extends Triangulo{
 
     @Override
     public double calcularArea() {
-        //fazer a checagem//////////////////////////////////////////////////////////////////////////////////
-        return 0;
+        double semiperimetro = getPerimetro()/2;
+        double area = Math.sqrt(semiperimetro*(semiperimetro-hipotenusa)*(semiperimetro-cateto1)*(semiperimetro-cateto2));
+        return area;
     }
 
     @Override

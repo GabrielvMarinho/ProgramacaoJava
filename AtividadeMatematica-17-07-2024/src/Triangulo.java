@@ -4,6 +4,9 @@ public abstract class Triangulo extends FormaGeometrica{
         if(hipotenusa>=cateto1+cateto2||cateto1>=cateto2+hipotenusa||cateto2>=cateto1+hipotenusa){
             throw new IllegalArgumentException("VALORES INSERIDOS NÃO CONDIZEM COM AS PROPRIEDADOS DE UM TRIÂNGULO");
         }
+        if(hipotenusa<0||cateto1<0||cateto2<0){
+            throw new IllegalArgumentException("VALORES NÂO PODEM SER IGUAIS OU MENORES QUE 0");
+        }
         if(cateto1==cateto2 && cateto2==hipotenusa){
             FormaGeometrica equilatero = new Equilatero(hipotenusa);
             return equilatero;
