@@ -124,11 +124,8 @@ public class Main {
                             professor.listarFormas("Circulo");
                             break;
                         case 3:
-                            System.out.println("Isosceles--------------");
                             professor.listarFormas("Isosceles");
-                            System.out.println("Escalenos--------------");
                             professor.listarFormas("Escaleno");
-                            System.out.println("Equilateros--------------");
                             professor.listarFormas("Equilatero");
                             break;
                         case 4:
