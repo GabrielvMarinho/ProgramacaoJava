@@ -7,7 +7,16 @@ public abstract class Pessoa {
     private int id;
     private String nome;
     private String email;
-    public ArrayList<Tarefa> listaTarefas = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 
     public Pessoa(String nome, String email){
         this.id = geradorId;
@@ -24,11 +33,19 @@ public abstract class Pessoa {
      * GETTERS E SETTERS
      */
 
+
+    public ArrayList<Tarefa> getTarefas(Pessoa usuario_logado) {
+        //instanciando uma lista de tarefas
+        ArrayList<Tarefa> listaTarefas = new ArrayList<Tarefa>();
+        //passando por todas as tarefas salvas e adicionando na lista criada
+        for(Tarefa tarefa:GerenciadorEmpresa.getListaTarefas()){
+            if(tarefa.getResponsavel()==usuario_logado)
+                listaTarefas.add(tarefa);
+        }
+        return listaTarefas;
+    }
     public int getId() {
         return id;
-    }
-    public ArrayList<Tarefa> getListaTarefas() {
-        return listaTarefas;
     }
 
     public String getEmail() {
@@ -43,10 +60,6 @@ public abstract class Pessoa {
         this.email = email;
     }
 
-    public void setListaTarefas(ArrayList<Tarefa> listaTarefas) {
-        this.listaTarefas = listaTarefas;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -55,7 +68,7 @@ public abstract class Pessoa {
      * MÉTODOS ABSTRATOS
      *
      */
-    public abstract ArrayList<Tarefa> retornarListaTarefas();
+
     public abstract void realizarTarefa(int id);
 
 
