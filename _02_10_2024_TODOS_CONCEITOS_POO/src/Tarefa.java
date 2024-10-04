@@ -1,12 +1,15 @@
 public class Tarefa {
     String descricao;
     String prioridade;
+    String status;
+
     Pessoa responsavel;
 
     public Tarefa(String descricao, String prioridade, Pessoa responsavel){
         this.descricao = descricao;
         this.prioridade = prioridade;
         this.responsavel = responsavel;
+        this.status = "Não Concluída";
     }
 
 
