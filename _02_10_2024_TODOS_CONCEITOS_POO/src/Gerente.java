@@ -21,13 +21,22 @@ public class Gerente extends Pessoa {
     public void addTarefa(Tarefa tarefa){
         GerenciadorEmpresa.addTarefa(tarefa);
     }
-    public ArrayList<Tarefa> getTarefasFuncionarioEspecifico(Pessoa usuario_logado, Pessoa funcionario) {
+    public ArrayList<Tarefa> getTarefasFuncionarioEspecifico(Pessoa funcionario) {
         //lógica para buscar as tarefas baseado em um funcionario específico
         return null;
     }
-    public ArrayList<Tarefa> getTarefasEquipe(Pessoa usuario_logado) {
+    public ArrayList<Tarefa> getTarefasEquipe() {
         //lógica para retornar lista com todas as tarefas(gerente e funcionarios
-        return null;
+
+        ArrayList<Tarefa> lista = new ArrayList<>();
+        for(Tarefa tarefa:GerenciadorEmpresa.getListaTarefas()){
+            for(Pessoa pessoa:this.getlistaFuncionarios()){
+                if(pessoa.getId()==tarefa.getResponsavel().getId())
+                    lista.add(tarefa);
+            }
+
+        }
+        return lista;
     }
 
 

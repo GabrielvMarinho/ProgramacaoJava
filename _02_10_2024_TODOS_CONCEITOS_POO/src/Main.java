@@ -40,6 +40,7 @@ public class Main {
                     System.out.println("[ 1 ] adicionar uma tarefa pessoal\n");
                     System.out.println("[ 2 ] listar minhas tarefas pessoais\n");
                     System.out.println("[ 3 ] adicionar uma tarefa para um funcionário\n");
+                    System.out.println("[ 4 ] listar tarefas equipe inteira\n");
 
                     System.out.println("[ 99 ] sair\n");
                     escolha = sc.nextInt();
@@ -74,19 +75,39 @@ public class Main {
                             cont++;
                             System.out.println(i.toString());
                         }
-                        System.out.println("Digite o id da pessoa que terá uma tarefa ");
-                        int id = sc.nextInt();
-                        ///n ta atribuindo
+                        boolean achou=false;
                         Pessoa funcionario=null;
-                        for(Pessoa i:((Gerente) usuario_logado).getlistaFuncionarios()){
-                            if(i.getId()==id)
-                                funcionario = i;
-                        }
+
+                        do{
+
+                            System.out.println("Digite o id da pessoa que terá uma tarefa ");
+                            int id = sc.nextInt();
+                            for(Pessoa i:((Gerente) usuario_logado).getlistaFuncionarios()){
+                                if(i.getId()==id) {
+                                    funcionario = i;
+                                    achou = true;
+                                }
+                            }
+                            if(achou==false){
+                                System.err.println("usuário não existente");
+                            }
+
+                        }while(!achou);
                         addTarefaFunc(usuario_logado, funcionario);
 
                     }
 
-                } while (escolha != 99);
+                    else if (escolha == 4) {
+                        System.out.println("TAREFAS EQUIPE "+usuario_logado.getNome()+" ->");
+                        for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasEquipe()){
+                            System.out.println("---------------");
+                            System.out.println(tarefa.toString());
+
+                        }
+
+                    }
+
+                    } while (escolha != 99);
             }
 
             else {
@@ -108,8 +129,8 @@ public class Main {
         Pessoa func2 = new Funcionario("pedro", "pedro@gmail.com");
         Pessoa func3 = new Funcionario("joana", "joana@gmail.com");
 
-        Pessoa gerente = new Gerente("maria", "maria@gmail.com");
-        Pessoa gerente1 = new Gerente("marcos", "marcos@gmail.com");
+        Pessoa gerente = new Gerente("maria", "mari");
+        Pessoa gerente1 = new Gerente("marcos", "marc");
 
         gerenciador.addPessoa(gerente);
         gerenciador.addPessoa(gerente1);
