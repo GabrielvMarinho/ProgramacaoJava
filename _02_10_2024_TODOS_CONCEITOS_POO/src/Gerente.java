@@ -22,8 +22,14 @@ public class Gerente extends Pessoa {
         GerenciadorEmpresa.addTarefa(tarefa);
     }
     public ArrayList<Tarefa> getTarefasFuncionarioEspecifico(Pessoa funcionario) {
-        //lógica para buscar as tarefas baseado em um funcionario específico
-        return null;
+        ArrayList<Tarefa> lista = new ArrayList<>();
+        for(Tarefa tarefa:GerenciadorEmpresa.getListaTarefas()){
+            if(tarefa.getResponsavel()==funcionario) {
+
+                lista.add(tarefa);
+            }
+        }
+        return lista;
     }
     public ArrayList<Tarefa> getTarefasEquipe() {
         //lógica para retornar lista com todas as tarefas(gerente e funcionarios

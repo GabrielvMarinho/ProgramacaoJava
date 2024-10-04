@@ -41,6 +41,7 @@ public class Main {
                     System.out.println("[ 2 ] listar minhas tarefas pessoais\n");
                     System.out.println("[ 3 ] adicionar uma tarefa para um funcionário\n");
                     System.out.println("[ 4 ] listar tarefas equipe inteira\n");
+                    System.out.println("[ 5 ] listar tarefas equipe individual \n");
 
                     System.out.println("[ 99 ] sair\n");
                     escolha = sc.nextInt();
@@ -104,7 +105,38 @@ public class Main {
                             System.out.println(tarefa.toString());
 
                         }
+                    }
 
+
+                    else if (escolha == 5) {
+                        boolean achou=false;
+                        Pessoa funcionario=null;
+                        int cont = 1;
+                        for (Pessoa i : ((Gerente) usuario_logado).getlistaFuncionarios()) {
+                            System.out.println("\nFuncionário " + cont);
+                            cont++;
+                            System.out.println(i.toString());
+                        }
+                        do{
+
+                            System.out.println("Digite o id da pessoa que verá as tarefa ");
+                            int id = sc.nextInt();
+                            for(Pessoa i:((Gerente) usuario_logado).getlistaFuncionarios()){
+                                if(i.getId()==id) {
+                                    funcionario = i;
+                                    achou = true;
+                                }
+                            }
+                            if(achou==false){
+                                System.err.println("usuário não existente");
+                            }
+
+                        }while(!achou);
+
+                        System.out.println("TAREFAS DE "+funcionario.getNome());
+                        for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasFuncionarioEspecifico(funcionario)){
+                            System.out.println(tarefa.toString());
+                        }
                     }
 
                     } while (escolha != 99);
@@ -167,18 +199,7 @@ public class Main {
         //adicionar uma tarefa
         System.out.println("digite a descrição de sua tarefa\n");
         String desc = sc.next();
-        System.out.println("escolha a prioridade: \n[ 0 ] pouco importante\n[ 1 ] importante\n[ 2 ] muito importante");
-        int prio = sc.nextInt();
-        String prioridade = "";
-
-        if (prio == 0)
-            prioridade = "Pouco Importante";
-        else if (prio == 1)
-            prioridade = "Importante";
-        else if (prio == 2)
-            prioridade = "Muito Importante";
-        else
-            System.out.println("Número inváldo");
+        String prioridade = escolherPrioridade();
 
         ((Gerente) usuario_logado).addTarefa(new Tarefa(desc, prioridade, usuario_logado));
         System.out.println("tarefa adicionada com sucesso");
@@ -188,8 +209,34 @@ public class Main {
         //adicionar uma tarefa
         System.out.println("digite a descrição de sua tarefa\n");
         String desc = sc.next();
+
+        String prioridade = escolherPrioridade();
+
+
+        ((Gerente) usuario_logado).addTarefa(new Tarefa(desc, prioridade, funcionario));
+        System.out.println("tarefa adicionada com sucesso");
+    }
+    //função para testar e validar a prioridade
+    public static String escolherPrioridade(){
+        boolean finalizar=false;
+        int prio=0;
+
         System.out.println("escolha a prioridade: \n[ 0 ] pouco importante\n[ 1 ] importante\n[ 2 ] muito importante");
-        int prio = sc.nextInt();
+        while(true) {
+            try {
+                prio = sc.nextInt();
+                if (prio < 0 || prio > 2) {
+                    System.out.println("Valor inválido. Tente novamente.");
+                    continue;
+                }
+                break;
+            } catch (Exception e) {
+                System.err.println("Não é número inteiro");
+                sc.next();
+                continue;
+
+            }
+        }
         String prioridade = "";
 
         if (prio == 0)
@@ -198,11 +245,7 @@ public class Main {
             prioridade = "Importante";
         else if (prio == 2)
             prioridade = "Muito Importante";
-        else
-            System.out.println("Número inváldo");
 
-        ((Gerente) usuario_logado).addTarefa(new Tarefa(desc, prioridade, funcionario));
-        System.out.println("tarefa adicionada com sucesso");
+        return prioridade;
     }
-
 }
