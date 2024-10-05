@@ -42,6 +42,7 @@ public class Main {
                     System.out.println("[ 3 ] adicionar uma tarefa para um funcionário\n");
                     System.out.println("[ 4 ] listar tarefas equipe inteira\n");
                     System.out.println("[ 5 ] listar tarefas equipe individual \n");
+                    System.out.println("[ 6 ] concluir tarefas tarefa pessoal \n");
 
                     System.out.println("[ 99 ] sair\n");
                     escolha = sc.nextInt();
@@ -137,6 +138,11 @@ public class Main {
                         for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasFuncionarioEspecifico(funcionario)){
                             System.out.println(tarefa.toString());
                         }
+                    }
+
+
+                    else if (escolha == 6) {
+                        ((Gerente) usuario_logado).concluirTarefa();
                     }
 
                     } while (escolha != 99);
