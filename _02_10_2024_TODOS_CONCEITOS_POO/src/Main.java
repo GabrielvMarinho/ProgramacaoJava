@@ -142,7 +142,42 @@ public class Main {
 
 
                     else if (escolha == 6) {
-                        ((Gerente) usuario_logado).concluirTarefa();
+                        //pegar tarefas que não estão cocluídas
+                        System.out.println("SUAS TAREFAS ->");
+
+                        for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
+                            if(tarefa.getStatus().equals("Não Concluída")){
+                                System.out.println(tarefa.toString());
+                            }
+                        }
+                        boolean achou = false;
+                        Tarefa tarefaCerta=null;
+
+                        do{
+                            System.out.println("Digite o id da tarefa que deseja concluir (-1 para voltar)");
+                            int id =sc.nextInt();
+                            if(id==-1){
+                                break;
+                            }
+                            for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
+                                if(tarefa.getId()==id){
+                                    if(tarefa.getStatus().equals("Não Concluída")) {
+
+                                        tarefaCerta = tarefa;
+                                        achou = true;
+                                    }
+                                }
+                            }
+                            if(achou){
+                                System.out.println("Tarefa Concluída");
+                                ((Gerente)usuario_logado).concluirTarefa(tarefaCerta);
+                                break;
+                            }
+                            else{
+                                System.err.println("TAREFA NÃO EXISTE");
+                            }
+                        }while(true);
+
                     }
 
                     } while (escolha != 99);

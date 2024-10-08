@@ -33,8 +33,13 @@ public class Gerente extends Pessoa {
     }
 
     public void concluirTarefa(Tarefa tarefa){
-        tarefa.status = "Concluído";
+            if(tarefa.getStatus().equals("Não Concluída")){
+                tarefa.setStatus("Concluída");
+            }else{
+                tarefa.setStatus("Não Concluída");
+            }
     }
+
     public ArrayList<Tarefa> getTarefasEquipe() {
         //lógica para retornar lista com todas as tarefas(gerente e funcionarios
 
