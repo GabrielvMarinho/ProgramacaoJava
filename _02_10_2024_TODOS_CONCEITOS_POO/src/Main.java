@@ -20,7 +20,10 @@ public class Main {
             if (usuario_logado instanceof Funcionario) {
                 int escolha = 99;
                 do {
-                    System.out.println("[ 0 ] listar minhas tarefas\n");
+                    System.out.println("[ 0 ] Listar minhas tarefas\n" +
+                            "[ 1 ] Concluir uma tarefa\n"+
+                            "[ 99 ] Sair \n");
+
                     escolha = sc.nextInt();
 
                     if(escolha==0){
@@ -28,6 +31,42 @@ public class Main {
                         for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
                             System.out.println(tarefa.toString());
                         }
+                    }
+
+                    Tarefa tarefaCerta=null;
+                    boolean achou=false;
+                    if(escolha==1){
+                        System.out.println("SUAS TAREFAS ->");
+                        for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
+                            if(tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println(tarefa.toString());
+                            }
+                        }
+                        do{
+                            System.out.println("Digite o id da tarefa que deseja concluir (-1 para voltar)");
+                            int id =sc.nextInt();
+                            if(id==-1){
+                                break;
+                            }
+                            for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
+                                if(tarefa.getId()==id){
+                                    if(tarefa.getStatus().equals("Não Concluída")) {
+
+                                        tarefaCerta = tarefa;
+                                        achou = true;
+                                    }
+                                }
+                            }
+                            if(achou){
+                                System.out.println("Tarefa Concluída");
+                                ((Funcionario)usuario_logado).concluirTarefa(tarefaCerta);
+                                break;
+                            }
+                            else{
+                                System.err.println("TAREFA NÃO EXISTE");
+                            }
+                        }while(true);
+
                     }
                 }while(escolha!=99);
             }
@@ -43,7 +82,7 @@ public class Main {
                     System.out.println("[ 4 ] listar tarefas equipe inteira\n");
                     System.out.println("[ 5 ] listar tarefas equipe individual \n");
                     System.out.println("[ 6 ] concluir tarefas tarefa pessoal \n");
-
+                    System.out.println("[ 7 ] concluir tarefas tarefa da equipe \n");
                     System.out.println("[ 99 ] sair\n");
                     escolha = sc.nextInt();
 
@@ -65,9 +104,26 @@ public class Main {
                     else if (escolha == 2) {
                         //lógica para buscar as tarefas pessoais
                         System.out.println("SUAS TAREFAS ->");
+                        System.out.println("--------------------");
+                        System.out.println("Tarefas não concluídas");
+                        System.out.println("--------------------");
+
                         for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
-                            System.out.println(tarefa.toString());
+                            if(tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println(tarefa.toString());
+
+                            }
                         }
+                        System.out.println("------------------");
+                        System.out.println("Tarefas concluídas");
+                        System.out.println("------------------");
+                        for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
+                            if(!tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println(tarefa.toString());
+
+                            }
+                        }
+
                     }
 
                     else if (escolha == 3){
@@ -100,12 +156,30 @@ public class Main {
                     }
 
                     else if (escolha == 4) {
-                        System.out.println("TAREFAS EQUIPE "+usuario_logado.getNome()+" ->");
-                        for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasEquipe()){
-                            System.out.println("---------------");
-                            System.out.println(tarefa.toString());
 
+                        System.out.println("TAREFAS EQUIPE "+usuario_logado.getNome()+" ->");
+
+                        System.out.println("--------------------");
+                        System.out.println("Tarefas não concluídas");
+                        System.out.println("--------------------");
+                        for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasEquipe()){
+                            if(tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println(tarefa.toString());
+                            }
                         }
+
+
+                        System.out.println("------------------");
+                        System.out.println("Tarefas concluídas");
+                        System.out.println("------------------");
+
+                        for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasEquipe()){
+                            if(!tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println("---------------");
+                                System.out.println(tarefa.toString());
+                            }
+                        }
+
                     }
 
 
@@ -134,9 +208,28 @@ public class Main {
 
                         }while(!achou);
 
-                        System.out.println("TAREFAS DE "+funcionario.getNome());
                         for(Tarefa tarefa:((Gerente) usuario_logado).getTarefasFuncionarioEspecifico(funcionario)){
                             System.out.println(tarefa.toString());
+                        }
+                        System.out.println("TAREFAS DE "+funcionario.getNome());
+                        System.out.println("--------------------");
+                        System.out.println("Tarefas não concluídas");
+                        System.out.println("--------------------");
+
+                        for (Tarefa tarefa:((Gerente) usuario_logado).getTarefasFuncionarioEspecifico(funcionario)) {
+                            if(tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println(tarefa.toString());
+
+                            }
+                        }
+                        System.out.println("------------------");
+                        System.out.println("Tarefas concluídas");
+                        System.out.println("------------------");
+                        for (Tarefa tarefa:((Gerente) usuario_logado).getTarefasFuncionarioEspecifico(funcionario)) {
+                            if(!tarefa.getStatus().equals("Não Concluída")) {
+                                System.out.println(tarefa.toString());
+
+                            }
                         }
                     }
 
@@ -160,17 +253,19 @@ public class Main {
                                 break;
                             }
                             for (Tarefa tarefa : usuario_logado.getTarefas(usuario_logado)) {
-                                if(tarefa.getId()==id){
-                                    if(tarefa.getStatus().equals("Não Concluída")) {
+                                if(tarefa.getResponsavel().equals(usuario_logado)) {
+                                    if (tarefa.getId() == id) {
+                                        if (tarefa.getStatus().equals("Não Concluída")) {
 
-                                        tarefaCerta = tarefa;
-                                        achou = true;
+                                            tarefaCerta = tarefa;
+                                            achou = true;
+                                        }
                                     }
                                 }
                             }
                             if(achou){
                                 System.out.println("Tarefa Concluída");
-                                ((Gerente)usuario_logado).concluirTarefa(tarefaCerta);
+                                ((Gerente)usuario_logado).concluirTarefa(tarefaCerta, usuario_logado);
                                 break;
                             }
                             else{
@@ -179,6 +274,46 @@ public class Main {
                         }while(true);
 
                     }
+
+                    else if (escolha == 7) {
+
+                        System.out.println("TAREFAS FUNCIONÁRIOS ->");
+
+                        for (Tarefa tarefa : ((Gerente)usuario_logado).getTarefasEquipe()) {
+                            if(tarefa.getStatus().equals("Não Concluída")){
+                                System.out.println(tarefa.toString());
+                            }
+                        }
+
+                        boolean achou = false;
+                        Tarefa tarefaCerta=null;
+
+                        do{
+                            System.out.println("Digite o id da tarefa que deseja concluir (-1 para voltar)");
+                            int id =sc.nextInt();
+                            if(id==-1){
+                                break;
+                            }
+                            for (Tarefa tarefa : ((Gerente)usuario_logado).getTarefasEquipe()) {
+                                    if (tarefa.getId() == id) {
+                                        if (tarefa.getStatus().equals("Não Concluída")) {
+                                            tarefaCerta = tarefa;
+                                            achou = true;
+                                        }
+                                }
+                            }
+                            if(achou){
+                                if(((Gerente)usuario_logado).concluirTarefa(tarefaCerta) ){
+                                    System.out.println("Tarefa Concluída");
+                                    break;
+                                }
+                            }
+                            System.err.println("TAREFA NÃO EXISTE");
+
+                        }while(true);
+                    }
+
+
 
                     } while (escolha != 99);
             }

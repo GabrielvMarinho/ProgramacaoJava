@@ -32,12 +32,36 @@ public class Gerente extends Pessoa {
         return lista;
     }
 
-    public void concluirTarefa(Tarefa tarefa){
+    public void concluirTarefa(Tarefa tarefa, Pessoa usuario_logado){
+        if(tarefa.getResponsavel().getId()==usuario_logado.getId()){
             if(tarefa.getStatus().equals("Não Concluída")){
                 tarefa.setStatus("Concluída");
             }else{
                 tarefa.setStatus("Não Concluída");
             }
+        }
+    }
+    public boolean concluirTarefa(Tarefa tarefa){
+            //lógica para concluir só da sua equipe
+        boolean achou = false;
+        for(Pessoa funcionario:this.getlistaFuncionarios()){
+            if(tarefa.getResponsavel()==funcionario){
+                achou = true;
+            }
+
+        }
+        if(achou){
+            if(tarefa.getStatus().equals("Não Concluída")){
+                tarefa.setStatus("Concluída");
+            }else{
+                tarefa.setStatus("Não Concluída");
+            }
+            return true;
+        }
+
+        return false;
+
+
     }
 
     public ArrayList<Tarefa> getTarefasEquipe() {

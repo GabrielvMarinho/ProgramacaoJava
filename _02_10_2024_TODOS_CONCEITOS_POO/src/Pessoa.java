@@ -71,6 +71,6 @@ public abstract class Pessoa {
 
     public abstract void realizarTarefa(int id);
 
-
+    public abstract boolean concluirTarefa(Tarefa tarefa);
 
 }

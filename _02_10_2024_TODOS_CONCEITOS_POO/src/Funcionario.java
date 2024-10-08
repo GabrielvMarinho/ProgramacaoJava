@@ -13,7 +13,18 @@ public class Funcionario extends Pessoa {
      * MÉTODOS ABSTRATOS
      */
 
-
+    @Override
+    public boolean concluirTarefa(Tarefa tarefa){
+        //lógica para concluir apenas as suas tarefas
+        if(tarefa.getResponsavel().getId() == this.getId()){
+            if(tarefa.getStatus().equals("Não Concluída")){
+                tarefa.setStatus("Concluída");
+            }else{
+                tarefa.setStatus("Não Concluída");
+            }
+        }
+        return true;
+    }
     @Override
     public void realizarTarefa(int id) {
         //lógica para poder concluir tarefas mas apenas se for dele
