@@ -25,10 +25,7 @@ public class Funcionario extends Pessoa {
         }
         return true;
     }
-    @Override
-    public void realizarTarefa(int id) {
-        //lógica para poder concluir tarefas mas apenas se for dele
-    }
+
 
 
     /**

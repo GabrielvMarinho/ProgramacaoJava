@@ -7,12 +7,20 @@ public class Tarefa {
     String status;
     Pessoa responsavel;
 
+
     public Tarefa(String descricao, String prioridade, Pessoa responsavel){
         this.id = geradorIdTarefa;
         geradorIdTarefa++;
         this.descricao = descricao;
         this.prioridade = prioridade;
         this.responsavel = responsavel;
+        this.status = "Não Concluída";
+    }
+    public Tarefa(String descricao, String prioridade){
+        this.id = geradorIdTarefa;
+        geradorIdTarefa++;
+        this.descricao = descricao;
+        this.prioridade = prioridade;
         this.status = "Não Concluída";
     }
 

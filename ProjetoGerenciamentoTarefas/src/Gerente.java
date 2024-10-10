@@ -10,10 +10,6 @@ public class Gerente extends Pessoa {
      * a logica do sistema é que o próprio gerente crie as tarefas e atribua
      * a si mesmo se necessário
      */
-    public Gerente(String nome, String email, ArrayList<Pessoa> listaFuncionarios){
-        super(nome, email);
-        this.listaFuncionario = listaFuncionarios;
-    }
     public Gerente(String nome, String email){
         super(nome, email);
     }
@@ -32,6 +28,45 @@ public class Gerente extends Pessoa {
         return lista;
     }
 
+
+
+    public ArrayList<Tarefa> getTarefasEquipe() {
+        //lógica para retornar lista com todas as tarefas(gerente e funcionarios
+
+        ArrayList<Tarefa> lista = new ArrayList<>();
+        for(Tarefa tarefa:GerenciadorEmpresa.getListaTarefas()){
+            for(Pessoa pessoa:this.getlistaFuncionarios()){
+                if(pessoa.getId()==tarefa.getResponsavel().getId())
+                    lista.add(tarefa);
+            }
+
+        }
+        return lista;
+    }
+
+    public void cadastrarFuncionario(Funcionario funcionario){
+        GerenciadorEmpresa.addPessoa(funcionario);
+        this.addFuncionario(funcionario);
+    }
+
+    /**
+     * GETTERS E SETTERS
+     */
+    public ArrayList<Pessoa> getlistaFuncionarios() {
+        return this.listaFuncionario;
+    }
+    public void setlistaFuncionarios(ArrayList<Pessoa> listaFuncionarios) {
+        this.listaFuncionario = listaFuncionarios;
+    }
+    public void addFuncionario(Pessoa func){
+        this.listaFuncionario.add(func);
+    }
+
+
+    /**
+     * MÉTODOS ABSTRATOS
+     */
+
     public void concluirTarefa(Tarefa tarefa, Pessoa usuario_logado){
         if(tarefa.getResponsavel().getId()==usuario_logado.getId()){
             if(tarefa.getStatus().equals("Não Concluída")){
@@ -41,8 +76,9 @@ public class Gerente extends Pessoa {
             }
         }
     }
+    @Override
     public boolean concluirTarefa(Tarefa tarefa){
-            //lógica para concluir só da sua equipe
+        //lógica para concluir só da sua equipe
         boolean achou = false;
         for(Pessoa funcionario:this.getlistaFuncionarios()){
             if(tarefa.getResponsavel()==funcionario){
@@ -64,45 +100,4 @@ public class Gerente extends Pessoa {
 
     }
 
-    public ArrayList<Tarefa> getTarefasEquipe() {
-        //lógica para retornar lista com todas as tarefas(gerente e funcionarios
-
-        ArrayList<Tarefa> lista = new ArrayList<>();
-        for(Tarefa tarefa:GerenciadorEmpresa.getListaTarefas()){
-            for(Pessoa pessoa:this.getlistaFuncionarios()){
-                if(pessoa.getId()==tarefa.getResponsavel().getId())
-                    lista.add(tarefa);
-            }
-
-        }
-        return lista;
-    }
-
-
-    /**
-     * GETTERS E SETTERS
-     */
-    public ArrayList<Pessoa> getlistaFuncionarios() {
-        return this.listaFuncionario;
-    }
-    public void setlistaFuncionarios(ArrayList<Pessoa> listaFuncionarios) {
-        this.listaFuncionario = listaFuncionarios;
-    }
-    public void addFuncionario(Pessoa func){
-        this.listaFuncionario.add(func);
-
-    }
-
-
-    /**
-     * MÉTODOS ABSTRATOS
-     */
-
-
-
-    @Override
-    public void realizarTarefa(int id) {
-        //lógica para poder concluir tarefas se for dele ou de qualquer um de seus funcionarios
-
-    }
 }
