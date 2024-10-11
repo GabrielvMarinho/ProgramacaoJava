@@ -10,10 +10,6 @@ public class Gerente extends Pessoa {
      * a logica do sistema é que o próprio gerente crie as tarefas e atribua
      * a si mesmo se necessário
      */
-    public Gerente(String nome, String email, ArrayList<Pessoa> listaFuncionarios){
-        super(nome, email);
-        this.listaFuncionario = listaFuncionarios;
-    }
     public Gerente(String nome, String email){
         super(nome, email);
     }
@@ -32,9 +28,8 @@ public class Gerente extends Pessoa {
         return lista;
     }
 
-    public void concluirTarefa(Tarefa tarefa){
-        tarefa.status = "Concluído";
-    }
+
+
     public ArrayList<Tarefa> getTarefasEquipe() {
         //lógica para retornar lista com todas as tarefas(gerente e funcionarios
 
@@ -49,6 +44,10 @@ public class Gerente extends Pessoa {
         return lista;
     }
 
+    public void cadastrarFuncionario(Funcionario funcionario){
+        GerenciadorEmpresa.addPessoa(funcionario);
+        this.addFuncionario(funcionario);
+    }
 
     /**
      * GETTERS E SETTERS
@@ -61,7 +60,6 @@ public class Gerente extends Pessoa {
     }
     public void addFuncionario(Pessoa func){
         this.listaFuncionario.add(func);
-
     }
 
 
@@ -69,11 +67,37 @@ public class Gerente extends Pessoa {
      * MÉTODOS ABSTRATOS
      */
 
-
-
+    public void concluirTarefa(Tarefa tarefa, Pessoa usuario_logado){
+        if(tarefa.getResponsavel().getId()==usuario_logado.getId()){
+            if(tarefa.getStatus().equals("Não Concluída")){
+                tarefa.setStatus("Concluída");
+            }else{
+                tarefa.setStatus("Não Concluída");
+            }
+        }
+    }
     @Override
-    public void realizarTarefa(int id) {
-        //lógica para poder concluir tarefas se for dele ou de qualquer um de seus funcionarios
+    public boolean concluirTarefa(Tarefa tarefa){
+        //lógica para concluir só da sua equipe
+        boolean achou = false;
+        for(Pessoa funcionario:this.getlistaFuncionarios()){
+            if(tarefa.getResponsavel()==funcionario){
+                achou = true;
+            }
+
+        }
+        if(achou){
+            if(tarefa.getStatus().equals("Não Concluída")){
+                tarefa.setStatus("Concluída");
+            }else{
+                tarefa.setStatus("Não Concluída");
+            }
+            return true;
+        }
+
+        return false;
+
 
     }
+
 }
