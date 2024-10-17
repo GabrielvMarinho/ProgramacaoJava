@@ -7,29 +7,29 @@ public class GerenT {
     static ArrayList<Pessoa> margemEsquerda = new ArrayList<Pessoa>();
     static ArrayList<Pessoa> todasPessoas = new ArrayList<Pessoa>();
     static public String retornarStatus(Barco barco) {
-        String subIdD = "[-";
-        String subIdE = "[-";
+        String subIdD = "[   ";
+        String subIdE = "[   ";
         for(Pessoa i:margemEsquerda){
-            subIdD += i.getId()+"-";
+            subIdD += i.getClass().getName()+"|"+i.getId()+"   ";
         }
         for(Pessoa i:margemDireita){
-            subIdE += i.getId()+"-";
+            subIdE += i.getClass()+"|"+i.getId()+"   ";
         }
         subIdD +="]";
         subIdE +="]";
-        String barco1=null;
-        String barco2=null;
+        String barco1="";
+        String barco2="";
 
         if(barco.listaPessoas()[0]!=null){
-            barco1 = String.valueOf(barco.listaPessoas()[0].getId());
+            barco1 = barco.listaPessoas()[0].getClass().getName()+"|"+String.valueOf(barco.listaPessoas()[0].getId());
         }
         if(barco.listaPessoas()[1]!=null){
-            barco2 = String.valueOf(barco.listaPessoas()[1].getId());
+            barco2 = barco.listaPessoas()[1].getClass().getName()+"|"+String.valueOf(barco.listaPessoas()[1].getId());
 
         }
         if(barco.getMargemProxima()==getMargemEsquerda()){
             String texto = "Margem Esquerda = "+subIdD+
-                    "\nBarco = "+barco1+"-"+barco2+
+                    "\nBarco = "+"[  "+barco1+"   "+barco2+"  ]"+ "   { 0 move o barco }"+
                     "\n----------------------------------------------------------"+
                     "\n----------------------------------------------------------"+
                     "\nMargem Direita = "+subIdE;
@@ -40,7 +40,7 @@ public class GerenT {
         String texto = "Margem Esquerda = "+subIdD+
                 "\n----------------------------------------------------------"+
                 "\n----------------------------------------------------------"+
-                "\nBarco = "+barco1+"-"+barco2+
+                "\nBarco = "+"[  "+barco1+"   "+barco2+"  ]"+ "   { 0 move o barco }"+
                 "\nMargem Direita = "+subIdE;
         return texto;
     }
