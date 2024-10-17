@@ -7,11 +7,19 @@ import java.util.Scanner;
 public class Main {
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) throws Exception {
-
-        System.out.println("\nHOMEM -> \uD83D\uDE4D\u200D♂\uFE0F"+
-                "\nMENINO -> \uD83D\uDC66"+
-                "\nMULHER -> \uD83D\uDE4D\u200D♀\uFE0F"+
-                "\nMENINA -> \uD83D\uDC67"+
+        System.out.println("---------------------------------");
+        System.out.println("REGRAS DO JOGO");
+        System.out.println("I) A jangada só pode carregar duas pessoas por vez.\n" +
+                "II) Somente o pai, a mãe e o policial sabem manobrar a jangada.\n" +
+                "III) Os filhos não podem ficar com a mãe na ausência do pai, em nenhuma das duas margens do rio.\n" +
+                "IV) Os filhos não podem ser transportados pela mãe.\n" +
+                "V) As filhas não podem ficar com o pai na ausência da mãe, em nenhuma das duas margens do rio.\n" +
+                "VI) As filhas não podem ser transportadas pelo pai.\n" +
+                "VII) O ladrão não pode ficar com membros da família na ausência do policial, mas ela pode ficar isolada em qualquer margem do rio.");
+        System.out.println("\nPAI -> \uD83D\uDE4D\u200D♂\uFE0F"+
+                "\nFILHOS -> \uD83D\uDC66"+
+                "\nMÃE -> \uD83D\uDE4D\u200D♀\uFE0F"+
+                "\nFILHAS -> \uD83D\uDC67"+
                 "\nPOLICIAL -> \uD83D\uDC6E\uD83C\uDFFB"+
                 "\nLADRÃO -> \uD83D\uDE08");
 
