@@ -6,7 +6,9 @@ public class Barco {
 
     boolean lado = false; ///false esquerda - true direita
 
-    public void mudarLado(){
+    public void mudarLado() throws ExceptionSemAdultoBarco {
+        if(!(pessoas[0] instanceof Adulto)&&!(pessoas[1] instanceof Adulto))
+            throw new ExceptionSemAdultoBarco();
         lado = !lado;
     };
 
