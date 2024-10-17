@@ -1,5 +1,5 @@
 public class Policial extends Adulto{
-    public Policial(int id){
-        super(id);
+    public Policial(int id, String icon){
+        super(id, icon);
     }
 }

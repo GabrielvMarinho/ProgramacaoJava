@@ -1,5 +1,5 @@
 public class Ladrao extends Pessoa{
-    public Ladrao(int id){
-        super(id);
+    public Ladrao(int id, String icon){
+        super(id, icon);
     }
 }
