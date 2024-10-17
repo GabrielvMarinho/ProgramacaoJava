@@ -1,3 +1,4 @@
+import java.io.OutputStream;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -17,10 +18,13 @@ public class Main {
         Barco barco = new Barco();
         do {
             try {
+
                 System.out.println(GerenT.retornarStatus(barco));
 
                 System.out.println("digite o id");
                 int id = sc.nextInt();
+                System.out.println("\n\n\n\n\n\n\n\n\n\n");
+
                 if(id==0){
                     barco.mudarLado();
                 }else{
@@ -41,8 +45,13 @@ public class Main {
 
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
+
+                System.out.println("  "+e.getMessage());
+                System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
+
             }
+
         }while(true);
 
 
