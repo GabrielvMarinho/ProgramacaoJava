@@ -46,7 +46,7 @@ public class Main {
 
                 if(id==0){
                     //validação para a troca de margem
-                    GerenT.validacaoDeTrocaDeMargem(barco.getMargemProxima(), barco);
+                    GerenT.validacaoDeTrocaDeMargem(barco.getMargemProxima(), barco.getMargemDistante(), barco);
 
                     barco.mudarLado();
                 }else{

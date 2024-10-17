@@ -18,6 +18,12 @@ public class Barco {
         }
         return GerenT.getMargemEsquerda();
     }
+    public ArrayList<Pessoa> getMargemDistante(){
+        if(!lado){
+            return GerenT.getMargemDireita();
+        }
+        return GerenT.getMargemEsquerda();
+    }
     public Pessoa[] listaPessoas(){
         return pessoas;
 

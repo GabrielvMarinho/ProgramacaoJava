@@ -94,7 +94,10 @@ public class GerenT {
         }
         return false;
     }
-    static public boolean validacaoDeTrocaDeMargem(ArrayList<Pessoa> MA, Barco barco) throws Exception{
+    static public boolean validacaoDeTrocaDeMargem(ArrayList<Pessoa> MA,ArrayList<Pessoa> MD, Barco barco) throws Exception{
+        if(!possuiHomem(barco) && !possuiPolicial(barco) && !possuiMulher(barco)){
+            throw new ExceptionSemAdultoBarco();
+        }
         if(possuiHomem(MA) && possuiMenina(MA) && !possuiMulher(MA)) {
             throw new ExceptionPaiBateuMenina();
         }
@@ -108,6 +111,15 @@ public class GerenT {
             throw new ExceptionMaeBateuMenino();
         }
         else if(possuiLadrao(MA) && !possuiPolicial(MA) && (possuiMenino(MA) || possuiMenina(MA) || possuiHomem(MA) || possuiMulher(MA))){
+            throw new ExceptionLadraoBateuFamilia();
+        }
+        else if(possuiMulher(barco) && possuiMenino(MD) && !possuiHomem(MD) && !possuiHomem(barco)){
+            throw new ExceptionMaeBateuMenino();
+        }
+        else if(possuiHomem(barco) && possuiMenina(MD) && !possuiMulher(MD) && !possuiMulher(barco)){
+            throw new ExceptionPaiBateuMenina();
+        }
+        else if(possuiLadrao(barco) && (possuiPolicial(MA) || possuiPolicial(MD))){
             throw new ExceptionLadraoBateuFamilia();
         }
         return true;
