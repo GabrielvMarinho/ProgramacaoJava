@@ -1,5 +1,4 @@
-public class ExceptionBarcoCheio extends Exception{
-    public ExceptionBarcoCheio(){
-        super("O barco esta CHEIO!");
+public class ExceptionBarcoCheio extends ExceptionTravessiaJogo{
+    public ExceptionBarcoCheio(){ super("O barco esta CHEIO!");
     }
 }

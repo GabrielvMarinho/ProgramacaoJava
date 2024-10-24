@@ -1,4 +1,4 @@
-public class ExceptionSemAdultoBarco extends Exception{
+public class ExceptionSemAdultoBarco extends ExceptionTravessiaJogo{
     public ExceptionSemAdultoBarco(){
         super("O barco não possui ADULTOS!");
     }

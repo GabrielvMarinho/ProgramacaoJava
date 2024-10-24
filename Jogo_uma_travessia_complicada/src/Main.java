@@ -11,43 +11,46 @@ public class Main {
 
         setarObjetos();
         mostrarIntrucoes();
+        try {
+            do {
+                try {
+                    //mostrando o status do jogo (posição do barco, pessoas, etc.)
+                    GerenT.retornarStatus(barco);
+                    //pegando o id que vai sofrer a ação
+                    int id = pegarId();
 
-        do {
-            try {
-                //mostrando o status do jogo (posição do barco, pessoas, etc.)
-                GerenT.retornarStatus(barco);
-                //pegando o id que vai sofrer a ação
-                int id = pegarId();
-
-                if(id==0){
-                    //validação para a troca de margem
-                    GerenT.validacaoDeTrocaDeMargem(barco.getMargemProxima(), barco.getMargemDistante(), barco);
-                    //trocar de fato após validação
-                    barco.mudarLado();
-                }else{
-                    Pessoa escolhido = GerenT.returnById(id);
-                    //valida para ver se ele esta em um barco ou borda para mudar a logica
-                    if(GerenT.emQualMargemEsta(escolhido)==null){
-                        //pega a borda mais proxima do barco baseado em um atributo
-                        GerenT.moverDePara(escolhido, barco, barco.getMargemProxima());
+                    if (id == 0) {
+                        //validação para a troca de margem
+                        GerenT.validacaoDeTrocaDeMargem(barco.getMargemProxima(), barco.getMargemDistante(), barco);
+                        //trocar de fato após validação
+                        barco.mudarLado();
+                    } else {
+                        Pessoa escolhido = GerenT.returnById(id);
+                        //valida para ver se ele esta em um barco ou borda para mudar a logica
+                        if (GerenT.emQualMargemEsta(escolhido) == null) {
+                            //pega a borda mais proxima do barco baseado em um atributo
+                            GerenT.moverDePara(escolhido, barco, barco.getMargemProxima());
+                        } else {
+                            GerenT.moverDePara(escolhido, GerenT.emQualMargemEsta(escolhido), barco);
+                        }
                     }
-                    else{
-                        GerenT.moverDePara(escolhido, GerenT.emQualMargemEsta(escolhido), barco);
+                    if (GerenT.checarVitoria()) {
+                        //desenho no terminal da vitória
+                        mensagemVenceu();
+                        break;
                     }
-                }
-                if(GerenT.checarVitoria()){
-                    //desenho no terminal da vitória
-                    mensagemVenceu();
-                    break;
-                }
 
-            } catch (Exception e) {
-                System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
-                System.out.println("  "+e.getMessage());
-                System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
-            }
-        }while(true);
-    }
+                } catch (ExceptionTravessiaJogo e) {
+                    System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
+                    System.out.println("  " + e.getMessage());
+                    System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
+                }
+            } while (true);
+
+        }catch(Exception e){
+            System.err.println("ERRO FATAL: "+e.getMessage());
+        }
+        }
 
     //mostrar mensagem de vítória final do jogo
     public static void mensagemVenceu(){
