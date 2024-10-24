@@ -50,7 +50,6 @@ public class GerenT {
         return false;
     }
 
-
     static public boolean possuiLadrao(Barco barco){
         if(barco.listaPessoas()[0] instanceof Ladrao ||barco.listaPessoas()[1] instanceof Ladrao){
             return true;
@@ -98,7 +97,7 @@ public class GerenT {
         if(!possuiHomem(barco) && !possuiPolicial(barco) && !possuiMulher(barco)){
             throw new ExceptionSemAdultoBarco();
         }
-        if(possuiHomem(MA) && possuiMenina(MA) && !possuiMulher(MA)) {
+        else if(possuiHomem(MA) && possuiMenina(MA) && !possuiMulher(MA)) {
             throw new ExceptionPaiBateuMenina();
         }
         else if(possuiMulher(MA) && possuiMenino(MA) && !possuiHomem(MA)) {
@@ -124,17 +123,22 @@ public class GerenT {
         }
         return true;
     }
-    static public String retornarStatus(Barco barco) {
-        String subIdD = "[   ";
-        String subIdE = "[   ";
-        for(Pessoa i:margemEsquerda){
-            subIdD += i.getIcon()+"|"+i.getId()+"   ";
+    static public void retornarStatus(Barco barco) {
+        System.out.println("Margem Esquerda= "+desenharMargem(margemEsquerda)+
+                //operador ternário que desenha a margem antes ou depois do barco baseado em sua posição
+                "\n"+(barco.getMargemProxima()==getMargemEsquerda() ? desenhoBarco(barco)+desenhoAguas(): desenhoAguas()+desenhoBarco(barco))+
+                "Margem Direita = "+desenharMargem(margemDireita));
+    }
+    public static String desenharMargem(ArrayList<Pessoa> margem){
+        String desenho = "[   ";
+        for(Pessoa i:margem){
+            desenho += i.getIcon()+"|"+i.getId()+"   ";
         }
-        for(Pessoa i:margemDireita){
-            subIdE += i.getIcon()+"|"+i.getId()+"   ";
-        }
-        subIdD +="]";
-        subIdE +="]";
+        desenho +="]";
+        return desenho;
+
+    }
+    public static String desenhoBarco(Barco barco){
         String barco1="";
         String barco2="";
 
@@ -145,31 +149,18 @@ public class GerenT {
             barco2 = barco.listaPessoas()[1].getIcon()+"|"+String.valueOf(barco.listaPessoas()[1].getId());
 
         }
+        return "\u200B\uD83D\uDEA2 = "+"[  "+barco1+"   "+barco2+"  ]"+ "   { 0 mover }\n";
+
+    }
+    public static String desenhoAguas(){
         String g="\uD83D\uDCA7";
         String gs="\uD83D\uDCA6";
         String on="\uD83C\uDF0A";
-        if(barco.getMargemProxima()==getMargemEsquerda()){
-            String texto = "Margem = "+subIdD+
-                    "\n\u200B\uD83D\uDEA2 = "+"[  "+barco1+"   "+barco2+"  ]"+ "   { 0 mover }\n"+
-                    g+g+g+gs+gs+on+gs+on+g+gs+g+gs+on+g+on+g+gs+g+gs+"\n"+
-                    g+gs+gs+on+gs+on+g+on+g+gs+gs+on+g+gs+g+g+g+gs+gs+"\n"+
-                    g+gs+g+gs+g+gs+on+g+on+g+gs+gs+on+gs+on+g+g+on+g+g+"\n"+
-                    g+g+on+g+on+g+gs+gs+on+gs+on+gs+g+gs+g+gs+gs+gs+g+"\n"+
-                    "Margem Direita = "+subIdE;
-            return texto;
-
-        }
-
-        String texto = "Margem = "+subIdD+"\n"+
-                g+g+g+gs+gs+on+gs+on+g+gs+g+gs+on+g+on+g+gs+g+gs+"\n"+
+        return g+g+g+gs+gs+on+gs+on+g+gs+g+gs+on+g+on+g+gs+g+gs+"\n"+
                 g+gs+gs+on+gs+on+g+on+g+gs+gs+on+g+gs+g+g+g+gs+gs+"\n"+
                 g+gs+g+gs+g+gs+on+g+on+g+gs+gs+on+gs+on+g+g+on+g+g+"\n"+
-                g+g+on+g+on+g+gs+gs+on+gs+on+gs+g+gs+g+gs+gs+gs+g+"\n"+
-                "\u200B\uD83D\uDEA2 = "+"[  "+barco1+"   "+barco2+"  ]"+ "   { 0 mover }"+
-                "\nMargem Direita = "+subIdE;
-        return texto;
+                g+g+on+g+on+g+gs+gs+on+gs+on+gs+g+gs+g+gs+gs+gs+g+"\n";
     }
-
     public static ArrayList<Pessoa> getMargemDireita() {
         return margemDireita;
     }
