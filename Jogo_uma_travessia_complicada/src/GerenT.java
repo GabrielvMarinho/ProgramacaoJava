@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class GerenT {
     static ArrayList<Pessoa> margemDireita = new ArrayList<Pessoa>();
-
     static ArrayList<Pessoa> margemEsquerda = new ArrayList<Pessoa>();
     static ArrayList<Pessoa> todasPessoas = new ArrayList<Pessoa>();
+
 
     static public boolean possuiLadrao(ArrayList<Pessoa> margem){
         for(Pessoa i:margem){
@@ -49,7 +49,6 @@ public class GerenT {
         }
         return false;
     }
-
     static public boolean possuiLadrao(Barco barco){
         if(barco.listaPessoas()[0] instanceof Ladrao ||barco.listaPessoas()[1] instanceof Ladrao){
             return true;
@@ -86,14 +85,13 @@ public class GerenT {
         }
         return false;
     }
-
     public static boolean checarVitoria(){
         if(getMargemDireita().size()==8){
             return true;
         }
         return false;
     }
-    static public boolean validacaoDeTrocaDeMargem(ArrayList<Pessoa> MA,ArrayList<Pessoa> MD, Barco barco) throws Exception{
+    static public void validacaoDeTrocaDeMargem(ArrayList<Pessoa> MA,ArrayList<Pessoa> MD, Barco barco) throws Exception{
         if(!possuiHomem(barco) && !possuiPolicial(barco) && !possuiMulher(barco)){
             throw new ExceptionSemAdultoBarco();
         }
@@ -121,7 +119,6 @@ public class GerenT {
         else if(possuiLadrao(barco) && (possuiPolicial(MA) || possuiPolicial(MD))){
             throw new ExceptionLadraoBateuFamilia();
         }
-        return true;
     }
     static public void retornarStatus(Barco barco) {
         System.out.println("Margem Esquerda= "+desenharMargem(margemEsquerda)+
@@ -164,11 +161,9 @@ public class GerenT {
     public static ArrayList<Pessoa> getMargemDireita() {
         return margemDireita;
     }
-
     public static ArrayList<Pessoa> getTodasPessoas() {
         return todasPessoas;
     }
-
     public static ArrayList<Pessoa> getMargemEsquerda() {
         return margemEsquerda;
     }
@@ -183,7 +178,6 @@ public class GerenT {
         }
         return null;
     }
-
     public static Pessoa returnById(int id) throws ExceptionIdNaoExiste {
         for(Pessoa i:getTodasPessoas()){
             if(i.getId()==id){
@@ -192,8 +186,6 @@ public class GerenT {
         }
         throw new ExceptionIdNaoExiste();
     }
-
-
     static public void moverDePara(Pessoa pessoa, ArrayList<Pessoa> margem, Barco barco) throws Exception {
         if(!(barco.getMargemProxima()==margem)){
             throw new ExceptionBarcoLonge();

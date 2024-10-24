@@ -25,9 +25,7 @@ public class Main {
                     //trocar de fato após validação
                     barco.mudarLado();
                 }else{
-
                     Pessoa escolhido = GerenT.returnById(id);
-
                     //valida para ver se ele esta em um barco ou borda para mudar a logica
                     if(GerenT.emQualMargemEsta(escolhido)==null){
                         //pega a borda mais proxima do barco baseado em um atributo
@@ -43,17 +41,12 @@ public class Main {
                     break;
                 }
 
-
             } catch (Exception e) {
                 System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
                 System.out.println("  "+e.getMessage());
                 System.out.println("▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇");
-
             }
-
         }while(true);
-
-
     }
 
     //mostrar mensagem de vítória final do jogo

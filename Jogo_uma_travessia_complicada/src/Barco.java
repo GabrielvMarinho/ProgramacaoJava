@@ -3,7 +3,6 @@ import java.util.List;
 
 public class Barco {
     Pessoa[] pessoas = new Pessoa[2];
-
     boolean lado = false; ///false esquerda - true direita
 
     public void mudarLado() throws ExceptionSemAdultoBarco {
