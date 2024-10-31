@@ -1,10 +1,12 @@
+import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     private static Scanner sc = new Scanner(System.in);
-    private static BancoDeDados db = new BancoDeDados();
+    private static CRUDConta crud = new CRUDConta();
     public static void main(String[] args) {
 
 
@@ -17,8 +19,7 @@ public class Main {
 
             try{
                 executarOpcaoMenu(opcaoMenu);
-            }catch(ContaInexistenteException |
-                ContaJaCadastradaException e){
+            }catch(Exception e){
                 System.out.println(e.getMessage());
             }
         }while(true);
@@ -32,37 +33,47 @@ public class Main {
         int numero = sc.nextInt();
         //checks if the account exists, if so stops the process
         try{
-            Conta conta = db.buscarConta(numero);
+            Conta conta = crud.read(numero);
         }catch(ContaInexistenteException e){
             System.out.println("Titular: ");
             String titular = sc.next();
             System.out.println("Limite: ");
             double limite = sc.nextDouble();
-            db.inserirConta(new Conta(numero, titular, limite));
+            crud.create(new Conta(numero, titular, limite));
             return;
         }
         throw new ContaJaCadastradaException();
 
     }
-    private static void removerConta(){
+    private static void removerConta() throws ContasInexistentesException {
         Conta conta = buscarConta();
-        db.deletarConta(conta);
+        crud.delete(conta.getNumero());
     }
-    private static void editarConta(){
+    private static void editarConta() throws ContasInexistentesException {
         Conta conta = buscarConta();
         System.out.println("Titular: ");
         String titular = sc.next();
         System.out.println("Limite: ");
         double limite = sc.nextDouble();
+        System.out.println("Saldo: ");
+        double saldo = sc.nextDouble();
         conta.setTitular(titular);
         conta.setLimite(limite);
-//        db.atualizarConta(conta);//só importa quando tiver db de fato, pois alterar o objeto em java não necessariamente altera algo no db
+        conta.setSaldo(saldo);
+        crud.update(conta);
     }
-    private static Conta buscarConta(){
-        System.out.println(db.buscarContas());
+    private static Conta buscarConta() throws ContasInexistentesException {
+        try{
+            System.out.println(crud.readAll());
+
+        }catch(ContasInexistentesException e){
+            System.out.println(e.getMessage());
+        }
+
         System.out.println("Número da Conta: ");
         int numero = sc.nextInt();
-        return db.buscarConta(numero);
+
+        return crud.read(numero);
 
     }
     private void loginConta(){
@@ -105,7 +116,7 @@ public class Main {
                 >
                 """);
     }
-    private static void executarOpcaoMenu(int opcao){
+    private static void executarOpcaoMenu(int opcao) throws Exception {
         switch(opcao){
             case 1: {
                 cadastroConta();
@@ -120,7 +131,7 @@ public class Main {
                 break;
             }
             case 4: {
-                System.out.println(db.buscarContas());
+                System.out.println(crud.readAll());
                 break;
             }
             case 5:{
@@ -164,7 +175,7 @@ public class Main {
         return sc.nextDouble();
     }
 
-    private static void executarOpcaoConta(Conta conta, int opcao){
+    private static void executarOpcaoConta(Conta conta, int opcao) throws ContasInexistentesException {
 
         switch(opcao){
             case 1:{

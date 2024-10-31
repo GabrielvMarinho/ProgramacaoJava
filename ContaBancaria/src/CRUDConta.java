@@ -75,17 +75,18 @@ public class CRUDConta {
 
             while(rs.next()){
                 int numero = rs.getInt("numero");
-                String nome = rs.getString("nome");
+                String titular = rs.getString("titular");
                 double saldo = rs.getDouble("saldo");
                 double limite = rs.getDouble("limite");
 
-                Conta conta = new Conta(numero, nome, saldo, limite);
+                Conta conta = new Conta(numero, titular, saldo, limite);
                 lista.add(conta);
 
             }
+
             return lista;
         }catch(SQLException e){
-            System.err.println(e.getMessage());
+            System.err.println("erro ao pegar a lista "+e.getMessage());
         }
         throw new ContasInexistentesException();
     }
@@ -93,11 +94,15 @@ public class CRUDConta {
     public void update(Conta conta) throws ContaInexistenteException {
         try(Connection con = banco.getConnection()){
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE FROM tb_conta " +
+                    "UPDATE tb_conta " +
                             "SET titular = ?" +
-                            "SET saldo = ?" +
-                            "SET limite = ?" +
-                            "WHERE numero = ?");
+                            ", saldo = ?" +
+                            ", limite = ?" +
+                            " WHERE numero = ?;");
+            ps.setString(1, conta.getTitular());
+            ps.setDouble(2, conta.getSaldo());
+            ps.setDouble(3, conta.getLimite());
+            ps.setDouble(4, conta.getNumero());
             ps.execute();
             return;
         }catch (SQLException e){
