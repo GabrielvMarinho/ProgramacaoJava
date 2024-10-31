@@ -6,6 +6,9 @@ public class Main {
     private static Scanner sc = new Scanner(System.in);
     private static BancoDeDados db = new BancoDeDados();
     public static void main(String[] args) {
+
+
+
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
         do{

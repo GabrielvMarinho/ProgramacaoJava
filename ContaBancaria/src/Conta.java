@@ -5,10 +5,10 @@ public class Conta {
     private double saldo;
     private double limite;
 
-//    public Conta(int numero, String titular, double saldo, double limite){
-//        this(numero, titular, limite);
-//        this.saldo = saldo;
-//    }
+    public Conta(int numero, String titular, double saldo, double limite){
+        this(numero, titular, limite);
+        this.saldo = saldo;
+    }
     public Conta(int numero, String titular, double limite){
         this.numero = numero;
         this.titular = titular;
@@ -29,6 +29,15 @@ public class Conta {
         validaValor(valor);
         this.saldo +=valor;
     }
+
+    public String getTitular() {
+        return titular;
+    }
+
+    public double getLimite() {
+        return limite;
+    }
+
     public void transferencia(double valor, Conta conta)
             throws ContaInexistenteException,
             PropriaContaException,
