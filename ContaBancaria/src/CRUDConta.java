@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CRUDConta {
@@ -64,12 +65,45 @@ public class CRUDConta {
     }
 
     //reads a list of accounts
-    public List<Conta> readAll(){
-        return null;
+    public List<Conta> readAll() throws ContasInexistentesException{
+        List<Conta> lista = new ArrayList<>();
+        try(Connection con = banco.getConnection()){
+            PreparedStatement p = con.prepareStatement(
+                    "SELECT * FROM tb_conta");
+
+            ResultSet rs = p.executeQuery();
+
+            while(rs.next()){
+                int numero = rs.getInt("numero");
+                String nome = rs.getString("nome");
+                double saldo = rs.getDouble("saldo");
+                double limite = rs.getDouble("limite");
+
+                Conta conta = new Conta(numero, nome, saldo, limite);
+                lista.add(conta);
+
+            }
+            return lista;
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+        }
+        throw new ContasInexistentesException();
     }
     //will update the saldo of an account
-    public void update(int numero, Conta conta) throws SQLException {
-        return;
+    public void update(Conta conta) throws ContaInexistenteException {
+        try(Connection con = banco.getConnection()){
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE FROM tb_conta " +
+                            "SET titular = ?" +
+                            "SET saldo = ?" +
+                            "SET limite = ?" +
+                            "WHERE numero = ?");
+            ps.execute();
+            return;
+        }catch (SQLException e){
+            System.err.println(e.getMessage());
+        }
+        throw new ContaInexistenteException();
     }
     public void delete(int numero){
         try( Connection con = banco.getConnection()){
@@ -77,9 +111,12 @@ public class CRUDConta {
                     "DELETE FROM tb_conta WHERE numero = ?");
             ps.setDouble(1, numero);
             ps.execute();
+            return;
         }catch (SQLException e){
             System.err.println(e.getMessage());
         }
+        throw new ContaInexistenteException();
+
     }
 
 

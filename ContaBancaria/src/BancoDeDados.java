@@ -19,6 +19,7 @@ public class BancoDeDados {
 
     public void inserirConta(Conta conta){
         this.contas.add(conta);
+        
     }
 //    public void deletarConta(int numero){
 //        Conta conta = buscarConta(numero);

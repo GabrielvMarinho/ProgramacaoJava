@@ -30,7 +30,7 @@ public class Main {
     private static void cadastroConta(){
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
-
+        //checks if the account exists, if so stops the process
         try{
             Conta conta = db.buscarConta(numero);
         }catch(ContaInexistenteException e){
@@ -42,8 +42,6 @@ public class Main {
             return;
         }
         throw new ContaJaCadastradaException();
-
-
 
     }
     private static void removerConta(){
