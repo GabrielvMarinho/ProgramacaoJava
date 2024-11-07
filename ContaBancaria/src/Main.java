@@ -6,7 +6,9 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     private static Scanner sc = new Scanner(System.in);
-    private static CRUDConta crud = new CRUDConta();
+    final private static CRUDConta crudConta = new CRUDConta();
+
+    final private static CrudCliente crudCliente = new CrudCliente();
     public static void main(String[] args) {
 
 
@@ -28,18 +30,19 @@ public class Main {
     }
 
 
-    private static void cadastroConta(){
+    private static void cadastroConta() throws ContasInexistentesException {
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
         //checks if the account exists, if so stops the process
         try{
-            Conta conta = crud.read(numero);
+            Conta conta = crudConta.read(numero);
         }catch(ContaInexistenteException e){
-            System.out.println("Titular: ");
-            String titular = sc.next();
+
+            Cliente titular = buscarCliente();
+
             System.out.println("Limite: ");
             double limite = sc.nextDouble();
-            crud.create(new Conta(numero, titular, limite));
+            crudConta.create(new Conta(numero, titular, limite));
             return;
         }
         throw new ContaJaCadastradaException();
@@ -47,24 +50,29 @@ public class Main {
     }
     private static void removerConta() throws ContasInexistentesException {
         Conta conta = buscarConta();
-        crud.delete(conta.getNumero());
+        crudConta.delete(conta.getNumero());
     }
     private static void editarConta() throws ContasInexistentesException {
         Conta conta = buscarConta();
-        System.out.println("Titular: ");
-        String titular = sc.next();
+
+        Cliente titular = buscarCliente();
+
+
         System.out.println("Limite: ");
         double limite = sc.nextDouble();
+
         System.out.println("Saldo: ");
         double saldo = sc.nextDouble();
+
+
         conta.setTitular(titular);
         conta.setLimite(limite);
         conta.setSaldo(saldo);
-        crud.update(conta);
+        crudConta.update(conta);
     }
     private static Conta buscarConta() throws ContasInexistentesException {
         try{
-            System.out.println(crud.readAll());
+            System.out.println(crudConta.readAll());
 
         }catch(ContasInexistentesException e){
             System.out.println(e.getMessage());
@@ -73,7 +81,18 @@ public class Main {
         System.out.println("Número da Conta: ");
         int numero = sc.nextInt();
 
-        return crud.read(numero);
+        return crudConta.read(numero);
+
+    }
+    private static Cliente buscarCliente() throws ContasInexistentesException {
+
+        System.out.println(crudCliente.readAll());
+
+
+        System.out.println("Id do cliente: ");
+        int numero = sc.nextInt();
+
+        return crudCliente.readOne(numero);
 
     }
     private void loginConta(){
@@ -131,7 +150,7 @@ public class Main {
                 break;
             }
             case 4: {
-                System.out.println(crud.readAll());
+                System.out.println(crudConta.readAll());
                 break;
             }
             case 5:{
@@ -180,13 +199,24 @@ public class Main {
         switch(opcao){
             case 1:{
                 conta.deposito(solicitarValor());
+                crudConta.update(conta);
+
                 break;
             }
             case 2:{
                 conta.saque(solicitarValor());
+                crudConta.update(conta);
+
                 break;
             }
             case 3:{
+                Conta contaBeneficiario = buscarConta();
+
+                conta.transferencia(solicitarValor(), contaBeneficiario);
+
+                crudConta.update(conta);
+                crudConta.update(contaBeneficiario);
+
                 /*
                  * SaldoInsuficiente, LimiteInsuficiente, PropriaConta
                  * Retornam para o menu da conta
@@ -194,7 +224,6 @@ public class Main {
                  * ContaInexistente, ValorInvalido solicita novamente
                  * o valor e a conta para tranferência
                  * **/
-                conta.transferencia(solicitarValor(), buscarConta());
                 break;
 
             }

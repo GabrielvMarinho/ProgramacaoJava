@@ -14,11 +14,11 @@ public class CRUDConta {
         try (Connection con = banco.getConnection()){
             PreparedStatement ps = con.prepareStatement(
                     "INSERT INTO tb_conta " +
-                            "(numero, titular, saldo, limite)" +
+                            "(numero, id_cliente, saldo, limite)" +
                             "VALUES(?, ?, ?, ?)");
             //setting the values of the query looking forward to a sql injection free system
             ps.setInt(1, conta.getNumero());
-            ps.setString(2, conta.getTitular());
+            ps.setInt(2, conta.getTitular().getId());
             ps.setDouble(3, conta.getSaldo());
             ps.setDouble(4, conta.getLimite());
             ps.execute();
@@ -50,13 +50,15 @@ public class CRUDConta {
                 //get the column "numero" specifically
                 int num = rs.getInt("numero");
                 //get the column "titular" specifically
-                String nome = rs.getString("titular");
+                int idCliente = rs.getInt("id_cliente");
                 //get the column "saldo" specifically
                 double saldo = rs.getDouble("saldo");
                 //get the column "limite" specifically
                 double limite = rs.getDouble("limite");
+                CrudCliente crudCliente = new CrudCliente();
+                Cliente titular = crudCliente.readOne(idCliente);
 
-                return new Conta(num, nome, saldo, limite);
+                return new Conta(num, titular, saldo, limite);
             };
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -75,9 +77,11 @@ public class CRUDConta {
 
             while(rs.next()){
                 int numero = rs.getInt("numero");
-                String titular = rs.getString("titular");
+                int idCliente = rs.getInt("id_cliente");
                 double saldo = rs.getDouble("saldo");
                 double limite = rs.getDouble("limite");
+                CrudCliente crudCliente = new CrudCliente();
+                Cliente titular = crudCliente.readOne(idCliente);
 
                 Conta conta = new Conta(numero, titular, saldo, limite);
                 lista.add(conta);
@@ -95,11 +99,11 @@ public class CRUDConta {
         try(Connection con = banco.getConnection()){
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE tb_conta " +
-                            "SET titular = ?" +
+                            "SET id_cliente = ?" +
                             ", saldo = ?" +
                             ", limite = ?" +
                             " WHERE numero = ?;");
-            ps.setString(1, conta.getTitular());
+            ps.setInt(1, conta.getTitular().getId());
             ps.setDouble(2, conta.getSaldo());
             ps.setDouble(3, conta.getLimite());
             ps.setDouble(4, conta.getNumero());
