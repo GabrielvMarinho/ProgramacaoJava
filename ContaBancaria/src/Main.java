@@ -30,7 +30,7 @@ public class Main {
     }
 
 
-    private static void cadastroConta() throws ContasInexistentesException {
+    private static void cadastroConta() throws ContasInexistentesException, ClienteInexistenteException {
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
         //checks if the account exists, if so stops the process
@@ -52,7 +52,7 @@ public class Main {
         Conta conta = buscarConta();
         crudConta.delete(conta.getNumero());
     }
-    private static void editarConta() throws ContasInexistentesException {
+    private static void editarConta() throws ContasInexistentesException, ClienteInexistenteException {
         Conta conta = buscarConta();
 
         Cliente titular = buscarCliente();
@@ -84,7 +84,7 @@ public class Main {
         return crudConta.read(numero);
 
     }
-    private static Cliente buscarCliente() throws ContasInexistentesException {
+    private static Cliente buscarCliente() throws ContasInexistentesException, ClienteInexistenteException {
 
         System.out.println(crudCliente.readAll());
 
@@ -100,6 +100,20 @@ public class Main {
     }
     private void logoutConta(){
 
+    }
+    private static void mostrarClientes(){
+        for(Cliente cliente: crudCliente.readAll()){
+            System.out.println(cliente.toString());
+        }
+    }
+    private static void cadastroCliente(){
+        System.out.println("Digite o nome do cliente");
+        String nome = sc.next();
+        System.out.println("Digite o cpf");
+        String cpf = sc.next();
+        //falta validar o cpf
+        crudCliente.create(new Cliente(nome, cpf));
+        System.out.println("Conta criada!");
     }
     private void mostrarDadosConta(){
 
@@ -117,8 +131,11 @@ public class Main {
                 3 - Deletar
                 4 - Mostrar Todas
                 5 - Selecionar
-                6 - Sair
-                
+                6 - Cadastro Cliente
+                7 - Visualizar Cliente
+                8 - Deletar Cliente
+                9 - Sair
+
                 >""");
     }
 
@@ -184,8 +201,19 @@ public class Main {
                 break;
             }
             case 6:{
+                cadastroCliente();
+                break;
+
+
+            }
+            case 7:{
+                mostrarClientes();
+                break;
+            }
+            case 9:{
                 System.exit(0);
             }
+
         }
     }
 

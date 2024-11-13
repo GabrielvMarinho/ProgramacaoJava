@@ -62,6 +62,8 @@ public class CRUDConta {
             };
         }catch (SQLException e){
             System.err.println(e.getMessage());
+        } catch (ClienteInexistenteException e) {
+            throw new RuntimeException(e);
         }
         throw new ContaInexistenteException();
     }
@@ -82,7 +84,6 @@ public class CRUDConta {
                 double limite = rs.getDouble("limite");
                 CrudCliente crudCliente = new CrudCliente();
                 Cliente titular = crudCliente.readOne(idCliente);
-
                 Conta conta = new Conta(numero, titular, saldo, limite);
                 lista.add(conta);
 
@@ -91,6 +92,8 @@ public class CRUDConta {
             return lista;
         }catch(SQLException e){
             System.err.println("erro ao pegar a lista "+e.getMessage());
+        } catch (ClienteInexistenteException e) {
+            throw new RuntimeException(e);
         }
         throw new ContasInexistentesException();
     }
