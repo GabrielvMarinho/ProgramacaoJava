@@ -1,9 +1,9 @@
-import Exceptions.ErroInsercaoException;
-import Exceptions.EventoInexistenteException;
-import Exceptions.IdInvalidoException;
-import Exceptions.ParticipanteInexistenteException;
+import Exceptions.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Main {
@@ -70,24 +70,44 @@ public class Main {
     public static void adicionarEvento(){
         try{
             String nome = null;
-            try{
-                System.out.println("Digite o NOME do evento\n");
-                nome = sc.next();
+            String localidade = null;
 
-            }catch (Exception e){
-                System.out.println(e);
-            }
+            do{
+                try {
+                    System.out.println("Digite o NOME do evento\n");
+                    sc.nextLine();
+                    nome = sc.nextLine();
+                    crudEvento.checarNomeExistente(nome);
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }while(true);
 
-            System.out.println("Digite a localidade do evento\n");
-            String localidade = sc.next();
+            do{
+                try {
+                    System.out.println("Digite a localidade do evento\n");
+                    sc.nextLine();
+                    localidade = sc.next();
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+            }while(true);
 
             String data = null;
-            try{
-                System.out.println("Digite a data do evento [ formato: 2000-12-31 ]\n");
-                data = sc.next();
-            }catch (Exception e){
-                System.out.println("Dado inválido");
-            }
+            do{
+                try{
+                    System.out.println("Digite a data do evento [ formato: 2000-12-31 ]\n");
+                    data = sc.next();
+                    validarData(data);
+                    break;
+                }catch (Exception e){
+                    System.out.println("Dado inválido");
+                }
+            }while(true);
+
 
             System.out.println("Digite a descricao do evento\n");
             String descricao = sc.next();
@@ -102,7 +122,8 @@ public class Main {
     public static void buscarEventoPorNome(){
         try{
             System.out.println("Digite o nome do evento\n");
-            String nome = sc.next();
+            sc.nextLine();
+            String nome = sc.nextLine();
 
             Evento evento = crudEvento.buscarEventoPorNome(nome);
             System.out.println("Evento encontrado: ");
@@ -127,20 +148,33 @@ public class Main {
     public static void adicionarParticipante(){
         try{
             String nome=null;
-            try{
-                System.out.println("Digite o nome\n");
-                nome = sc.next();
-            }catch (Exception e){
-                System.out.println(e);
-            }
+            do{
+
+                try{
+                    System.out.println("Digite o nome\n");
+                    sc.nextLine();
+                    nome = sc.nextLine();
+                    crudParticipante.checarNomeExistente(nome);
+                    break;
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+            }while(true);
+
 
             String email=null;
-            try{
-                System.out.println("Digite o email\n");
-                email = sc.next();
-            }catch (Exception e){
-                System.out.println(e);
-            }
+            do{
+                try{
+                    System.out.println("Digite o email\n");
+                    email = sc.next();
+                    crudParticipante.checarEmailExistente(email);
+                    break;
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+
+            }while(true);
+
             crudParticipante.adicionarParticipante(new Participante(nome, email));
             System.out.println("Participante adicionado!");
         }catch (ErroInsercaoException e){
@@ -213,11 +247,13 @@ public class Main {
 
 
     }
-    
-//    public static void validarNomeEvento(String email) throws ErroInsercaoException {
-//        if(crudEvento.checarEmailExistente()){
-//            throw new ErroInsercaoException();
-//        }
-//    }
-
+    public static boolean validarData(String date) throws DataInvalidaException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            LocalDate.parse(date, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            throw new DataInvalidaException();
+        }
+    }
 }

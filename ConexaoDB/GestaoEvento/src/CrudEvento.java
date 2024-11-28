@@ -1,5 +1,6 @@
 import Exceptions.ErroInsercaoException;
 import Exceptions.EventoInexistenteException;
+import Exceptions.NomeExistenteException;
 import Exceptions.ParticipanteInexistenteException;
 
 import java.sql.Connection;
@@ -119,6 +120,26 @@ public class CrudEvento {
             e.printStackTrace();
         }
         throw new EventoInexistenteException();
+    }
+
+    public void checarNomeExistente(String nome) throws NomeExistenteException {
+
+        try(Connection con = banco.getConnection()){
+            PreparedStatement ps = con.prepareStatement("""
+                    SELECT * FROM eventos WHERE nome = ?;
+                    """);
+            ps.setString(1, nome);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                throw new NomeExistenteException();
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
 }

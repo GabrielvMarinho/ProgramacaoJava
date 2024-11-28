@@ -1,6 +1,4 @@
-import Exceptions.ErroInsercaoException;
-import Exceptions.EventoInexistenteException;
-import Exceptions.ParticipanteInexistenteException;
+import Exceptions.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -109,5 +107,44 @@ public class CrudParticipante {
         throw new ParticipanteInexistenteException();
     }
 
+    public void checarNomeExistente(String nome) throws NomeExistenteException {
+
+        try (Connection con = banco.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("""
+                    SELECT * FROM participantes WHERE nome = ?;
+                    """);
+            ps.setString(1, nome);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                throw new NomeExistenteException();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void checarEmailExistente(String email) throws EmailExistenteException {
+
+        try(Connection con = banco.getConnection()){
+            PreparedStatement ps = con.prepareStatement("""
+                    SELECT * FROM participantes WHERE email = ?;
+                    """);
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                throw new EmailExistenteException();
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
 
 }
