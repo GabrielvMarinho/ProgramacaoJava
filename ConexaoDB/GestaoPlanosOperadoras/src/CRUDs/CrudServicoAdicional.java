@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrudServicoAdicional {
+    //classe responsável pelo crud do servico adicional
+
     public static ServicoAdicional cadastro(ServicoAdicional servicoAdicional){
         try(Connection con = DB.getConnection()){
             PreparedStatement ps =con.prepareStatement("""

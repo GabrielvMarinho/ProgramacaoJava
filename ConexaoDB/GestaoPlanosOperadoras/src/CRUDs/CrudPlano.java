@@ -1,8 +1,6 @@
 package CRUDs;
 
-import Classes.Contrato;
-import Classes.Plano;
-import Classes.ServicoAdicional;
+import Classes.*;
 import DB.DB;
 
 import java.sql.*;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrudPlano {
+    //classe responsável pelo crud do plano
 
 
     public static Plano cadastro(Plano plano){
@@ -45,6 +44,7 @@ public class CrudPlano {
                     SELECT * FROM plano WHERE id = ?
                     """);
             ps.setDouble(1, id);
+
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 String operadora = rs.getString("operadora");
@@ -55,12 +55,37 @@ public class CrudPlano {
                 double valor = rs.getDouble("valor");
                 return new Plano(id, operadora, nome, quantidade_dados, quantidade_dados_bonus, beneficios, valor);
             }
-            return null;
         }catch (SQLException e){
             System.err.println(e);
         }
         throw new RuntimeException();
     }
+    public static List<Plano> consulta(){
+        List<Plano> lista = new ArrayList<>();
+        try(Connection con = DB.getConnection()){
+            PreparedStatement ps = con.prepareStatement("""
+                    SELECT * FROM plano;
+                    """);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String operadora = rs.getString("operadora");
+                String nome = rs.getString("nome");
+                double quantidade_dados = rs.getDouble("quantidade_dados");
+                double quantidade_dados_bonus = rs.getDouble("quantidade_dados_bonus");
+                String beneficios = rs.getString("beneficios");
+                double valor = rs.getDouble("valor");
+                lista.add(new Plano(id, operadora, nome, quantidade_dados, quantidade_dados_bonus, beneficios, valor));
+            }
+
+
+            return lista;
+        }catch (SQLException e){
+            System.err.println(e);
+        }
+        throw new RuntimeException();
+    }
+
     public static List<Plano> consultaOperadora(String operadoraBusca){
         List<Plano> lista = new ArrayList<>();
         try(Connection con = DB.getConnection()){
@@ -128,7 +153,6 @@ public class CrudPlano {
         }
         throw new RuntimeException();
     }
-
     public static void adicionarServico(Plano plano, ServicoAdicional servicoAdicional){
         try(Connection con = DB.getConnection()){
             PreparedStatement ps = con.prepareStatement("""
@@ -187,8 +211,7 @@ public class CrudPlano {
 
     }
 
-
-    public static List<ServicoAdicional> consultaServicosAdicionais(Plano plano){
+    public static List<ServicoAdicional> consultaServicosAdicionaisPlano(Plano plano){
         List<ServicoAdicional> lista = new ArrayList<>();
         try(Connection con = DB.getConnection()){
             PreparedStatement ps = con.prepareStatement("""
@@ -252,6 +275,29 @@ public class CrudPlano {
                 return new Contrato(id, plano, termos, data_inicio, data_fim);
             }
 
+        }catch (SQLException e){
+            System.err.println(e);
+        }
+        throw new RuntimeException();
+    }
+
+    public static List<Cliente> clientesEmUmPlano(Plano planoBusca){
+        List<Cliente> lista = new ArrayList<>();
+        try(Connection con = DB.getConnection()){
+            PreparedStatement ps = con.prepareStatement("""
+                    SELECT * FROM cliente WHERE id_plano = ?
+                    """);
+            ps.setInt(1, planoBusca.getId());
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String telefone = rs.getString("telefone");
+                Plano plano = CrudPlano.consultaIndividual(rs.getInt("id"));
+                lista.add(new Cliente(id, nome, email, telefone, plano));
+            }
+            return lista;
         }catch (SQLException e){
             System.err.println(e);
         }

@@ -41,6 +41,30 @@ public class Plano {
                 '}';
     }
 
+    public void setOperadora(String operadora) {
+        this.operadora = operadora;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setQuantidade_dados(double quantidade_dados) {
+        this.quantidade_dados = quantidade_dados;
+    }
+
+    public void setQuantidade_dados_bonus(double quantidade_dados_bonus) {
+        this.quantidade_dados_bonus = quantidade_dados_bonus;
+    }
+
+    public void setBeneficios(String beneficios) {
+        this.beneficios = beneficios;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
