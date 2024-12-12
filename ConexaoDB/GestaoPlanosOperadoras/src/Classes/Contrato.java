@@ -6,6 +6,17 @@ public class Contrato {
     String termos;
     String data_inicio;
     String data_fim;
+    public Object getPlanoId(){
+        if(this.plano!=null){
+            return getPlano().getId();
+        }else{
+            return null;
+        }
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

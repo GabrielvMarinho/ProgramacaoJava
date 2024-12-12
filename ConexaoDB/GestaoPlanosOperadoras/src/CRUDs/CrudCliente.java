@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrudCliente {
+    //classe responsável pelo crud do cliente
+
     public static Cliente cadastro(Cliente cliente){
         try(Connection con = DB.getConnection()){
             PreparedStatement ps =con.prepareStatement("""
@@ -19,8 +21,8 @@ public class CrudCliente {
             ps.setString(1, cliente.getNome());
             ps.setString(2, cliente.getEmail());
             ps.setString(3, cliente.getTelefone());
-            int id_plano = cliente.getPlano().getId();
-            ps.setInt(4, id_plano);
+            Object id_plano = cliente.getPlanoId();
+            ps.setObject(4, id_plano);
 
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
@@ -39,7 +41,7 @@ public class CrudCliente {
         List<Cliente> lista = new ArrayList<>();
         try(Connection con = DB.getConnection()){
             PreparedStatement ps = con.prepareStatement("""
-                    SELECT * FROM cliente
+                    SELECT * FROM cliente;
                     """);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -47,7 +49,11 @@ public class CrudCliente {
                 String nome = rs.getString("nome");
                 String email = rs.getString("email");
                 String telefone = rs.getString("telefone");
-                Plano plano = CrudPlano.consultaIndividual(rs.getInt("id"));
+                Plano plano=null;
+                if(!(rs.getInt("id_plano")==0)){
+                    plano = CrudPlano.consultaIndividual(rs.getInt("id_plano"));
+
+                }
                 lista.add(new Cliente(id, nome, email, telefone, plano));
             }
             return lista;
@@ -90,7 +96,7 @@ public class CrudCliente {
             ps.setString(1, cliente.getNome());
             ps.setString(2, cliente.getEmail());
             ps.setString(3, cliente.getTelefone());
-            ps.setInt(4, cliente.getPlano().getId());
+            ps.setObject(4, cliente.getPlanoId());
             ps.setInt(5, cliente.getId());
             if(ps.executeUpdate()>0){
                 return;
@@ -116,26 +122,4 @@ public class CrudCliente {
         throw new RuntimeException();
     }
 
-    public static List<Cliente> clientesEmUmPlano(Plano planoBusca){
-        List<Cliente> lista = new ArrayList<>();
-        try(Connection con = DB.getConnection()){
-            PreparedStatement ps = con.prepareStatement("""
-                    SELECT * FROM cliente WHERE id_plano = ?
-                    """);
-            ps.setInt(1, planoBusca.getId());
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String nome = rs.getString("nome");
-                String email = rs.getString("email");
-                String telefone = rs.getString("telefone");
-                Plano plano = CrudPlano.consultaIndividual(rs.getInt("id"));
-                lista.add(new Cliente(id, nome, email, telefone, plano));
-            }
-            return lista;
-        }catch (SQLException e){
-            System.err.println(e);
-        }
-        throw new RuntimeException();
-    }
 }

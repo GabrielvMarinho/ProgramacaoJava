@@ -24,6 +24,14 @@ public class ServicoAdicional {
         this.custo_mensal = custo_mensal;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setCusto_mensal(double custo_mensal) {
+        this.custo_mensal = custo_mensal;
+    }
+
     public int getId() {
         return id;
     }
