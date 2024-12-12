@@ -5,13 +5,15 @@ public class Garcom extends Pessoa{
     double pagamento;
 
     public void cadastrarPedido(Cliente cliente, Pedido pedido){
-
+        cliente.fazerPedido(pedido);
     }
 
     public String exibirMenu(){
         return "";
     }
-    public void adicionarItemAoPedido(Pedido pedido, Produto item){}
+    public void adicionarItemAoPedido(Pedido pedido, Produto item){
+        pedido.adicionarItem(item);
+    }
 
     public void removerItemDoPedido(Pedido pedido, int codigo){
         pedido.removerItem(codigo);
@@ -24,6 +26,7 @@ public class Garcom extends Pessoa{
     public double calcularPagamento(Pedido pedido){
         return pedido.calcularTotal();
     }
+
 
 
 

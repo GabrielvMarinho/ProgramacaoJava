@@ -78,7 +78,6 @@ public class main {
                         }
                         else {
                             do {
-
                                 for (Produto produto : cardapio.getCardapio()) {
                                     if (produto.getCodigo() == cod) {
                                         System.out.println("PRODUTO -> '" + produto.getDescricao() + "' adicionado ao pedido");

@@ -30,9 +30,14 @@ public class Combo extends Produto{
         return this.preco;
     }
 
-    public String exibirDetalhes(){
-        return "";
+
+    public String exibirDetalhes() {
+        return "Combo{" +
+                "produtos=" + produtos +
+                ", desconto=" + desconto +
+                ", codigo=" + codigo +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                '}';
     }
-
-
 }

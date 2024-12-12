@@ -26,6 +26,7 @@ public class Pedido {
     public void adicionarItem(Produto item){
         itens.add(item);
     }
+
     public void removerItem(int codigo){
         itens.remove(codigo);
     }

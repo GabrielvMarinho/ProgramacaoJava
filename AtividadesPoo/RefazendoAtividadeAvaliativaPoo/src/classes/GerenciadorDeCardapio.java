@@ -18,7 +18,7 @@ public class GerenciadorDeCardapio {
     }
 
     public ArrayList<Produto> listarProdutos(){
-        return null;
+        return cardapio;
     }
 
 }

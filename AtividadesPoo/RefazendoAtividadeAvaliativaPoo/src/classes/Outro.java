@@ -8,12 +8,20 @@ public class Outro extends Produto{
         this.tamanho = tamanho;
     }
 
-    public double calcularPreco(double descontro){
-        //logica de desconto do outro
-        return 0;
+    public double calcularPreco(double desconto){
+        this.preco = this.preco*desconto;
+        return this.preco;
     }
-    public String exibirDetalhes(){
-        //logica de exibir detalhes do outro
-        return "";
+
+
+    public String exibirDetalhes() {
+        return "Outro{" +
+                "tamanho='" + tamanho + '\'' +
+                ", codigo=" + codigo +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                '}';
     }
+
+
 }

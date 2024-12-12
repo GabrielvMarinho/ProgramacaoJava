@@ -15,9 +15,13 @@ public class Bebida extends Produto{
     }
 
 
-
-    public String exibirDetalhes(){
-        //logica de exibir detalhes da bebida
-        return "";
+    public String exibirDetalhes() {
+        return "Bebida{" +
+                "volume=" + volume +
+                ", codigo=" + codigo +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                '}';
     }
+
 }
