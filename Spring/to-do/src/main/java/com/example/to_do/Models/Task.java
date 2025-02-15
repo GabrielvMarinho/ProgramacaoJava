@@ -10,7 +10,6 @@ import org.springframework.lang.NonNull;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Entity
 public class Task {
     @Id
@@ -21,14 +20,4 @@ public class Task {
     String status;
     String prioridade;
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", status='" + status + '\'' +
-                ", prioriedade='" + prioridade + '\'' +
-                '}';
-    }
 }

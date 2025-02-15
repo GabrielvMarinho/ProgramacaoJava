@@ -1,8 +1,9 @@
 package com.example.to_do.Models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,10 +12,10 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 @Entity
-public class User {
+public class Users {
 
     @Id
-    @EqualsAndHashCode.Exclude
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String nome;
     String email;
