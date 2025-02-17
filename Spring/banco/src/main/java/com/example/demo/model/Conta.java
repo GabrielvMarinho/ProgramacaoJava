@@ -1,17 +1,29 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 @Data //Basically calls all the notations at class-level
-@Getter
-@Setter //generate all setters, if put in top of the attribute would only make the setter for that attribute
-@RequiredArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "tb_conta")
 public class Conta {
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
     @EqualsAndHashCode.Exclude //if a object with the same attribute is instantiated, they will be considered the same
-    private int numero;
-    @NonNull
+    @Column(name = "numero_da_conta",
+            nullable = false,
+            unique = true)
+    private Integer numero;
+
+    @Column(nullable = false)
     private String titular;
+
     @ToString.Exclude //excludes this attribute of the toString
-    private double saldo;
-    private double limite;
+    private Double saldo;
+
+    private Double limite;
+
+
 }
