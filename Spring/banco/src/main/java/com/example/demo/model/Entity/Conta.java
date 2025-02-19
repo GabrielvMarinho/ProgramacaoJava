@@ -1,10 +1,12 @@
-package com.example.demo.model;
+package com.example.demo.model.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 @Data //Basically calls all the notations at class-level
-@NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "tb_conta")
 public class Conta {
     @Id
@@ -24,6 +26,10 @@ public class Conta {
     private Double saldo;
 
     private Double limite;
+
+
+
+
 
 
 }
