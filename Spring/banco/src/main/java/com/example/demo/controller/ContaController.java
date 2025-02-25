@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -51,9 +52,10 @@ public class ContaController {
 
     @PostMapping("/criar")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Conta> cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDto, SessionStatus sessionStatus){
+    public Conta cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDto, SessionStatus sessionStatus){
         Conta conta = service.criarConta(contaDto);
-        return new ResponseEntity<>(conta, HttpStatus.CREATED);
+        return conta;
+
     }
 
     @DeleteMapping("/{id}")

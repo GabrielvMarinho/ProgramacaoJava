@@ -2,6 +2,9 @@ package com.example.demo.model.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
+
 @Data //Basically calls all the notations at class-level
 @Entity
 @AllArgsConstructor
@@ -19,8 +22,10 @@ public class Conta {
             unique = true)
     private Integer numero;
 
-    @Column(nullable = false)
-    private String titular;
+//    @ManyToMany(mappedBy = "contas")
+//    private List<Cliente> titulares;
+    @OneToOne
+    private Cliente titular;
 
     @ToString.Exclude //excludes this attribute of the toString
     private Double saldo;
