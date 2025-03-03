@@ -1,5 +1,6 @@
 package com.example.demo.model.Entity;
 
+import com.example.demo.model.DTO.ContaGetResponseDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,18 +24,25 @@ public class Conta {
     private Integer numero;
 
 //    @ManyToMany(mappedBy = "contas")
-//    private List<Cliente> titulares;
-    @OneToOne
+    //    private List<Cliente> titulares;
+//    @OneToOne
+//    private Cliente titular;
+    @ManyToOne
     private Cliente titular;
 
     @ToString.Exclude //excludes this attribute of the toString
-    private Double saldo;
+    @Builder.Default
+    private Double saldo=0.0;
 
     private Double limite;
 
 
-
-
-
-
+    public ContaGetResponseDTO convert() {
+        return new ContaGetResponseDTO(
+                this.numero,
+                this.saldo,
+                this.limite,
+                this.titular.convert()
+        );
+    }
 }

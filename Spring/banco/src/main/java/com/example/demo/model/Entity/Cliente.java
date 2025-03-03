@@ -1,12 +1,18 @@
 package com.example.demo.model.Entity;
 
+import com.example.demo.model.DTO.ClienteContaGetResponseDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -21,6 +27,27 @@ public class Cliente {
     private String nome;
     private Long cpf;
 
+    @OneToMany(mappedBy = "titular")
+    private Set<Conta> contas = new HashSet<>();
+
+    public Set<Conta> getContas(){
+        if(contas !=null){
+            return Collections.unmodifiableSet(contas);
+        }
+        return new HashSet<>();
+
+    }
+
+    public void addConta(@NotNull Conta conta){
+        this.contas.add(conta);
+    }
+    public void removerConta(@NotNull Conta conta){
+        this.contas.remove(conta);
+    }
+    public ClienteContaGetResponseDTO convert(){
+        return new ClienteContaGetResponseDTO(this.id, this.nome, this.cpf);
+    }
+
 //    @ManyToMany
 //    @JoinTable(
 //            name = "tb_cliente_conta",
@@ -33,6 +60,6 @@ public class Cliente {
     // essa foreign key deve ser da foreign key da outra Classe (conta nesse caso)
     // literalmente (bianca) para não criar duas foreign keys
 //    private List<Conta> contas;
-    @OneToOne(mappedBy = "titular")
-    private Conta conta;
+//    @OneToOne(mappedBy = "titular")
+//    private Conta conta;
 }

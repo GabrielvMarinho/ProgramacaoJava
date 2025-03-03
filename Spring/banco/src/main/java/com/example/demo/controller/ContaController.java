@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.DTO.ContaGetResponseDTO;
 import com.example.demo.model.DTO.ContaPostRequestDTO;
 import com.example.demo.model.Entity.Conta;
 import com.example.demo.service.ContaService;
@@ -34,20 +35,23 @@ public class ContaController {
 
         return service.buscarContas();
     }
-    @GetMapping("/page")
-    public Page<Conta> buscarTodasAsContasPaginado(
-            @PageableDefault(
-                    size=10,
-                    sort="saldo",
-                    direction= Sort.Direction.DESC,
-                    page=0
-            ) Pageable pageable){
-        return service.buscarContas(pageable);
-    }
+//    @GetMapping("/page")
+//    public Page<ContaGetResponseDTO> buscarTodasAsContasPaginado(
+//            @PageableDefault(
+//                    size=10,
+//                    sort="saldo",
+//                    direction= Sort.Direction.DESC,
+//                    page=0
+//            ) Pageable pageable){
+//        Page<Conta> contas = service.buscarContas(pageable);
+//        return contas.con;
+//
+//    }
 
     @GetMapping("/{id}")
-    public Conta buscarContaPorId(@PathVariable Integer id){
-        return service.buscarConta(id);
+    public ContaGetResponseDTO buscarContaPorId(@PathVariable Integer id){
+        Conta conta = service.buscarConta(id);
+        return conta.convert();
     }
 
     @PostMapping("/criar")

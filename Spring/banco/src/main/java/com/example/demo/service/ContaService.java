@@ -23,6 +23,8 @@ public class ContaService {
     }
 
     public List<Conta> buscarContas(){
+        List<Conta> contas = repository.findAll();
+        System.out.println(contas);
         return repository.findAll();
     }
 
@@ -35,6 +37,7 @@ public class ContaService {
     public Page<Conta> buscarContas(Pageable pageable){
         return repository.findAll(pageable);
     }
+
     public void deletarConta(Integer id) {
         repository.deleteById(id);
 
