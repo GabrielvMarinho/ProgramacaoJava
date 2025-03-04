@@ -1,10 +1,10 @@
 package com.example.demo.model.Entity;
 
-import com.example.demo.model.DTO.ContaGetResponseDTO;
+import com.example.demo.model.DTO.ClienteContaGetResponseDTO;
+import com.example.demo.model.DTO.ContaClienteResponseDTO;
+import com.example.demo.model.DTO.ContaResponseDTO;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Data //Basically calls all the notations at class-level
 @Entity
@@ -37,12 +37,23 @@ public class Conta {
     private Double limite;
 
 
-    public ContaGetResponseDTO convert() {
-        return new ContaGetResponseDTO(
+    public ContaResponseDTO convert() {
+        return new ContaResponseDTO(
+                this.id,
                 this.numero,
                 this.saldo,
                 this.limite,
-                this.titular.convert()
+                this.titular.convertToClienteContaResponseDTO()
         );
+    }
+
+    public ContaClienteResponseDTO convertToContaClienteResponseDTO(){
+        return new ContaClienteResponseDTO(this.id, this.saldo,
+                this.limite, this.numero);
+    }
+
+    public ContaResponseDTO convertToContaResponseDTO() {
+        ClienteContaGetResponseDTO titular = this.titular.convertToClienteContaResponseDTO();
+        return new ContaResponseDTO(this.id, this.numero, this.saldo, this.limite, titular);
     }
 }

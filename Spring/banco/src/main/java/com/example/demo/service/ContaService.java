@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.DTO.ContaPostRequestDTO;
+import com.example.demo.model.DTO.ContaPutRequestDTO;
 import com.example.demo.model.Entity.Conta;
 import com.example.demo.repository.ContaRepository;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,8 @@ public class ContaService {
     }
 
 
-    public Conta atualizarConta(Integer id, Conta conta) {
+    public Conta atualizarConta(Integer id, ContaPutRequestDTO contaDto) {
+        Conta conta = contaDto.convert();
         conta.setId(id);
         return repository.save(conta);
     }

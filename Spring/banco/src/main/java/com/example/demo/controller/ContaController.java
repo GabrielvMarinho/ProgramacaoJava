@@ -1,21 +1,21 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.DTO.ContaGetResponseDTO;
+import com.example.demo.model.DTO.ContaPutRequestDTO;
+import com.example.demo.model.DTO.ContaResponseDTO;
 import com.example.demo.model.DTO.ContaPostRequestDTO;
 import com.example.demo.model.Entity.Conta;
 import com.example.demo.service.ContaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -31,52 +31,60 @@ public class ContaController {
 //            value = "/ola")
     // o get mapping é apenas uma abstração maior do requestmapping
     @GetMapping
-    public List<Conta> buscarContas(){
-
-        return service.buscarContas();
+    public List<ContaResponseDTO> buscarContas(){
+        List<Conta> contasList = service.buscarContas();
+        return contasList.stream().map(Conta::convertToContaResponseDTO).toList();
     }
-//    @GetMapping("/page")
-//    public Page<ContaGetResponseDTO> buscarTodasAsContasPaginado(
-//            @PageableDefault(
-//                    size=10,
-//                    sort="saldo",
-//                    direction= Sort.Direction.DESC,
-//                    page=0
-//            ) Pageable pageable){
-//        Page<Conta> contas = service.buscarContas(pageable);
-//        return contas.con;
-//
-//    }
+
+    @GetMapping("/page")
+    public Page<ContaResponseDTO> buscarTodasAsContasPaginado(@PageableDefault(size = 20,
+            sort = "saldo", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Conta> contaPage =
+                service.buscarContas(pageable);
+        List<ContaResponseDTO> contaResponseDTOList =
+                contaPage.getContent().stream().map(
+                        Conta::convertToContaResponseDTO).toList();
+        return new PageImpl<>(
+                contaResponseDTOList,
+                contaPage.getPageable(),
+                contaPage.getTotalElements()
+        );
+    }
+
+
+
 
     @GetMapping("/{id}")
-    public ContaGetResponseDTO buscarContaPorId(@PathVariable Integer id){
+    public ContaResponseDTO buscarContaPorId(@PathVariable Integer id){
         Conta conta = service.buscarConta(id);
+
         return conta.convert();
     }
 
     @PostMapping("/criar")
     @ResponseStatus(HttpStatus.CREATED)
-    public Conta cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDto, SessionStatus sessionStatus){
+    public ContaResponseDTO cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDto, SessionStatus sessionStatus){
         Conta conta = service.criarConta(contaDto);
-        return conta;
-
+        return conta.convertToContaResponseDTO();
     }
 
     @DeleteMapping("/{id}")
-    public String deletarConta(@PathVariable Integer id){
+    public void deletarConta(@PathVariable Integer id){
         service.deletarConta(id);
-        return "Deletado";
     };
     @PutMapping("/{id}")
-    public Conta atualizarConta(@PathVariable Integer id, @RequestBody Conta conta){
-        return service.atualizarConta(id, conta);
+    public ContaResponseDTO atualizarConta(@PathVariable Integer id,
+                                           @RequestBody ContaPutRequestDTO contaDto){
+
+        Conta conta = service.atualizarConta(id, contaDto);
+        return conta.convertToContaResponseDTO();
     }
 
     @PatchMapping("/{id}")
-    public Conta alteraLimite(
+    public ContaResponseDTO alteraLimite(
             @PathVariable Integer id,
             @RequestParam Double limite){
-        return service.alterarLimite(id, limite);
+        return service.alterarLimite(id, limite).convertToContaResponseDTO();
     }
 
 }

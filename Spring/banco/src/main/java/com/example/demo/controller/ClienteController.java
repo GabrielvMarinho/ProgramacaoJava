@@ -5,14 +5,19 @@ import com.example.demo.model.DTO.ClientePutRequestDTO;
 import com.example.demo.model.DTO.ClienteResponseDTO;
 import com.example.demo.model.Entity.Cliente;
 import com.example.demo.service.ClienteService;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cliente")
@@ -22,33 +27,41 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente cadastrar(@Valid @RequestBody ClientePostRequestDTO clienteDto){
-        return service.cadastrar(clienteDto);
+    public ClienteResponseDTO cadastrar(@Valid @RequestBody ClientePostRequestDTO clienteDto){
+        Cliente cliente = service.cadastrar(clienteDto);
+
+        return cliente.convertToClienteResponseDTO();
     }
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente editar(@PathVariable Integer id,
+    public ClienteResponseDTO editar(@PathVariable Integer id,
             @Valid @RequestBody ClientePutRequestDTO clienteDTO){
-        return service.editar(id, clienteDTO);
+        Cliente cliente = service.editar(id, clienteDTO);
+        return cliente.convertToClienteResponseDTO();
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente alterarContas(
+    public ClienteResponseDTO alterarContas(
             @PathVariable Integer id,
             @RequestParam Integer idConta){
-        return service.alterarConta(id, idConta);
+        Cliente cliente = service.alterarConta(id, idConta);
+        return cliente.convertToClienteResponseDTO();
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<Cliente> buscarCliente(@PageableDefault(
+    public Page<ClienteResponseDTO> buscarCliente(@PageableDefault(
             size=20,
             sort="nome",
             direction = Sort.Direction.ASC,
             page=0
     )Pageable pageable){
-        return service.buscarClientes(pageable);
+        Page<Cliente> clientesPage = service.buscarClientes(pageable);
+        List<ClienteResponseDTO> contentList = clientesPage.getContent().stream().map(
+                Cliente::convertToClienteResponseDTO).toList();
+        return new PageImpl<>(contentList,
+                clientesPage.getPageable(), clientesPage.getTotalElements());
     }
 
 
@@ -56,12 +69,11 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.OK)
     public ClienteResponseDTO buscarCliente(@PathVariable Integer id){
         Cliente cliente = service.buscarCliente(id);
-        //return cliente.convert();
-        return null;
+        return cliente.convertToClienteResponseDTO();
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Cliente removerCliente(@PathVariable Integer id){
-        return service.remover(id);
+    public void removerCliente(@PathVariable Integer id){
+        service.remover(id);
     }
 }

@@ -52,10 +52,9 @@ public class ClienteService {
         return repository.findAll(pageable);
     }
 
-    public Cliente remover(@NotNull @Positive Integer id) {
+    public void remover(@NotNull @Positive Integer id) {
         Cliente cliente = repository.findById(id).get();
         repository.delete(cliente);
-        return cliente;
     }
 
     public Cliente alterarConta(@NotNull @Positive Integer id, @NotNull @Positive Integer idConta) {
