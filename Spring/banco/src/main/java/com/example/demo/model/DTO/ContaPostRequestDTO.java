@@ -12,7 +12,7 @@ import java.util.List;
 public record ContaPostRequestDTO(
         @NotNull
 //        List<Cliente> titulares,
-        Cliente titular,
+        Integer id_titular,
 
         @Positive @NotNull
         Integer numero,
@@ -21,11 +21,11 @@ public record ContaPostRequestDTO(
 ) {
 
 
-    public Conta convert() {
+    public Conta convert(Cliente cliente) {
         return Conta.builder()
                 .numero(numero)
                 .limite(limite)
-                .titular(titular)
+                .titular(cliente)
                 .build();
     }
 }

@@ -18,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/cliente")
@@ -28,6 +30,7 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClienteResponseDTO cadastrar(@Valid @RequestBody ClientePostRequestDTO clienteDto){
+        System.out.println(clienteDto);
         Cliente cliente = service.cadastrar(clienteDto);
 
         return cliente.convertToClienteResponseDTO();
@@ -51,17 +54,16 @@ public class ClienteController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<ClienteResponseDTO> buscarCliente(@PageableDefault(
-            size=20,
-            sort="nome",
-            direction = Sort.Direction.ASC,
-            page=0
-    )Pageable pageable){
-        Page<Cliente> clientesPage = service.buscarClientes(pageable);
-        List<ClienteResponseDTO> contentList = clientesPage.getContent().stream().map(
-                Cliente::convertToClienteResponseDTO).toList();
-        return new PageImpl<>(contentList,
-                clientesPage.getPageable(), clientesPage.getTotalElements());
+    public Page<ClienteResponseDTO> listar(
+            @PageableDefault(
+                    page = 0,
+                    size = 10,
+                    sort = "nome",
+                    direction = Sort.Direction.ASC
+            ) Pageable pageable) {
+        Page<Cliente> clientes = service.buscarClientes(pageable);
+        return clientes.map(Cliente::convertToClienteResponseDTO);
+
     }
 
 

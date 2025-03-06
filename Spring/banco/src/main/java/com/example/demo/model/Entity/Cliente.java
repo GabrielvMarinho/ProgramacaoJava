@@ -11,10 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -31,25 +28,35 @@ public class Cliente {
     private Long cpf;
 
     @OneToMany(mappedBy = "titular")
-    private Set<Conta> contas = new HashSet<>();
+    private List<Conta> contas;
 
-    public Set<Conta> getContas(){
-        if(contas !=null){
-            return Collections.unmodifiableSet(contas);
+    public List<Conta> getContas(){
+        if(this.contas ==null){
+            return new ArrayList<>();
         }
-        return new HashSet<>();
+        return this.contas;
 
     }
     public ClienteResponseDTO convertToClienteResponseDTO(){
-        Set< ContaClienteResponseDTO> contasDto =
-                this.contas.stream().map(Conta::convertToContaClienteResponseDTO).collect(Collectors.toSet());
-        return new ClienteResponseDTO(this.id, this.nome, this.cpf, contasDto);
+        List<ContaClienteResponseDTO> contasDTO = getContas().stream().map(Conta::convertToContaClienteResponseDTO).toList();
+//        for (Conta c : contas) {
+//            ContaClienteResponseDTO contaDto = c.convertToContaClienteResponseDTO();
+//            contasDTO.add(contaDto);
+//        }
+        return new ClienteResponseDTO(id, nome, cpf, contasDTO);
     }
 
     public void addConta(@NotNull Conta conta){
+        if(this.contas.contains(conta)){
+            throw new RuntimeException();
+        }
         this.contas.add(conta);
     }
     public void removerConta(@NotNull Conta conta){
+        if(!this.contas.contains(conta)){
+            throw new RuntimeException();
+        }
+
         this.contas.remove(conta);
     }
     public ClienteContaGetResponseDTO convertToClienteContaResponseDTO(){
