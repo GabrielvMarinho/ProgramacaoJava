@@ -70,22 +70,22 @@ public class ClienteService {
 
     public Cliente alterarConta(@NotNull @Positive Integer id, @NotNull @Positive Integer idConta) {
         Cliente cliente = repository.findById(id).get();
-//        Conta conta = contaService.buscarConta(idConta);
-//        if(cliente.getContas().contains(conta)){
-//            cliente.removerConta(conta);
-//        } else{
-//
-//            if(conta.getTitular()==null){
-//
-//                cliente.addConta(conta);
-//
-//            }else{
-//
-//                throw new MesmoTitularException();
-//
-//            }
-//
-//        }
+        Conta conta = contaService.buscarConta(idConta);
+        if(cliente.getContas().contains(conta)){
+            cliente.removerConta(conta);
+        } else{
+
+            if(conta.getTitular()==null){
+
+                cliente.addConta(conta);
+
+            }else{
+
+                throw new MesmoTitularException();
+
+            }
+
+        }
 
         return repository.save(cliente);
 

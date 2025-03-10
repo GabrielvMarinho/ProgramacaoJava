@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Table(name = "tb_cliente")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class Cliente {
     private String nome;
     private Long cpf;
 
-    @OneToMany(mappedBy = "titular")
+    @OneToMany(mappedBy = "titular", cascade = CascadeType.PERSIST)
     private List<Conta> contas;
 
     public List<Conta> getContas(){

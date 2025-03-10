@@ -2,12 +2,14 @@ package com.example.demo.service;
 
 import com.example.demo.model.DTO.ContaPostRequestDTO;
 import com.example.demo.model.DTO.ContaPutRequestDTO;
+import com.example.demo.model.DTO.ContaResponseDTO;
 import com.example.demo.model.Entity.Cliente;
 import com.example.demo.model.Entity.Conta;
 import com.example.demo.repository.ContaRepository;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -21,20 +23,30 @@ import java.util.List;
 public class ContaService {
 
     @Lazy
+    @Autowired
     private ClienteService clienteService;
+
     @NonNull
     private final ContaRepository repository;
+
+
+    ModelMapper modelMapper = new ModelMapper();
+
 
     public Conta criarConta(ContaPostRequestDTO contaDto){
         Cliente cliente = clienteService.buscarCliente(contaDto.id_titular());
         Conta conta = contaDto.convert(cliente);
+
         return repository.save(conta);
     }
 
-    public List<Conta> buscarContas(){
+    public List<ContaResponseDTO> buscarContas(){
         List<Conta> contas = repository.findAll();
+        List<ContaResponseDTO> listaFinal = contas.stream().map(conta ->
+                modelMapper.map(conta, ContaResponseDTO.class)
+        ).toList();
         System.out.println(contas);
-        return repository.findAll();
+        return listaFinal;
     }
 
     public Conta buscarConta(Integer id){

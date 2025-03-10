@@ -1,15 +1,18 @@
 package com.example.demo.model.DTO;
 
-public record ContaResponseDTO(
-        Integer id,
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-        Integer numero,
+@Data
+@NoArgsConstructor
+public class ContaResponseDTO {
+    Integer id;
 
-        Double saldo,
+    Integer numero;
 
-        Double limite,
+    Double saldo;
 
-        ClienteContaGetResponseDTO titular
-) {
+    Double limite;
 
+    ClienteContaGetResponseDTO titular;
 }

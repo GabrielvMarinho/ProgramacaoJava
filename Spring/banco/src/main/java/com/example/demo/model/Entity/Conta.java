@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Table(name = "tb_conta")
+
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,24 +29,17 @@ public class Conta {
 //    @OneToOne
 //    private Cliente titular;
     @ManyToOne
+    @ToString.Exclude
     private Cliente titular;
 
-    @ToString.Exclude //excludes this attribute of the toString
+
     @Builder.Default
     private Double saldo=0.0;
 
     private Double limite;
 
 
-    public ContaResponseDTO convert() {
-        return new ContaResponseDTO(
-                this.id,
-                this.numero,
-                this.saldo,
-                this.limite,
-                this.titular.convertToClienteContaResponseDTO()
-        );
-    }
+
 
     public ContaClienteResponseDTO convertToContaClienteResponseDTO(){
         return new ContaClienteResponseDTO(this.id, this.saldo,

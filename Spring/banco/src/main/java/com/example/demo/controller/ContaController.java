@@ -7,6 +7,7 @@ import com.example.demo.model.Entity.Conta;
 import com.example.demo.service.ContaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,10 @@ public class ContaController {
     // o get mapping é apenas uma abstração maior do requestmapping
     @GetMapping
     public List<ContaResponseDTO> buscarContas(){
-        List<Conta> contasList = service.buscarContas();
-        return contasList.stream().map(Conta::convertToContaResponseDTO).toList();
+        List<ContaResponseDTO> contasList = service.buscarContas();
+
+
+        return contasList;
     }
 
     @GetMapping("/page")
