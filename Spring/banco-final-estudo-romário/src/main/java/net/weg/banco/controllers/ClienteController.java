@@ -85,4 +85,11 @@ public class ClienteController {
     public void remover(@PathVariable Integer id) {
         service.remover(id);
     }
+
+
+    @GetMapping("/nome")
+    public ClienteResponseDTO buscarPorNome(@RequestParam String nome) {
+        return service.buscarPorNome(nome).convertToClienteResponseDTO();
+    }
+
 }

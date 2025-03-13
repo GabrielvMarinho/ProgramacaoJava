@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,9 +58,23 @@ public class ContaService {
         repository.deleteById(id);
     }
 
+    private Specification<Conta> filtroId(Integer id){
+        return ((root,
+                 query,
+                 criteriaBuilder) -> {
+            criteriaBuilder.equal(root.get("id"), id);
+        });
+    }
+
+
     public Conta alterarLimite(Integer id, Double limite) {
         Conta conta = getConta(id);
         conta.setLimite(limite);
         return repository.save(conta);
+    }
+    public List<Conta> buscarContasFiltros(
+            String nomeTitular, Integer numero
+    ) {
+        return repository.findByTitular_NomeContainsAndNumeroOrderByNumero(nomeTitular, numero);
     }
 }

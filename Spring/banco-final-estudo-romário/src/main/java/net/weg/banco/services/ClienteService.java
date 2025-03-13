@@ -90,4 +90,11 @@ public class ClienteService {
             throw new NoSuchElementException();
         }
     }
+    public Cliente buscarPorNome(String nome){
+        return clienteRepository.findByNome(nome);
+    }
+
+
+
+
 }

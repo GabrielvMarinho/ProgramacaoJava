@@ -76,5 +76,14 @@ public class ContaController {
         Conta conta = service.alterarLimite(id, limite);
         return conta.convertToContaResponseDTO();
     }
+
+
+    public List<ContaResponseDTO> buscarPorFiltro(@RequestParam String titular,
+                                                  @RequestParam Integer numero){
+        List<Conta> contaList = service.buscarContasFiltros(titular, numero);
+        return contaList
+                .stream().map(conta -> conta.convertToContaResponseDTO()).toList();
+    }
+
 }
 
