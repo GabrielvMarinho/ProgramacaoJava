@@ -8,6 +8,7 @@ import net.weg.banco.models.dtos.ClienteResponseDTO;
 import net.weg.banco.models.entity.Cliente;
 import net.weg.banco.services.ClienteService;
 import net.weg.banco.models.dtos.ClienteRequestDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,7 +24,7 @@ import java.util.List;
 public class ClienteController {
 
     private ClienteService service;
-
+    private ModelMapper modelMapper;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClienteResponseDTO cadastrar(@RequestBody @Valid ClienteRequestDTO clienteDto) {
@@ -72,7 +73,10 @@ public class ClienteController {
                     direction = Sort.Direction.ASC
             ) Pageable pageable) {
         Page<Cliente> clientes = service.buscar(pageable);
-        return clientes.map(Cliente::convertToClienteResponseDTO);
+        Page<ClienteResponseDTO> clientesDTO = clientes.map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class));
+        System.out.println("-------------");
+        System.out.println(clientesDTO);
+        return clientesDTO;
 //        List<ClienteResponseDTO> contentList = clientes.getContent().stream().map(
 //                Cliente::convertToClienteResponseDTO).toList();
 //        return new PageImpl<>(contentList,
@@ -87,9 +91,9 @@ public class ClienteController {
     }
 
 
-    @GetMapping("/nome")
-    public ClienteResponseDTO buscarPorNome(@RequestParam String nome) {
-        return service.buscarPorNome(nome).convertToClienteResponseDTO();
-    }
+//    @GetMapping("/nome")
+//    public ClienteResponseDTO buscarPorNome(@RequestParam String nome) {
+//        return service.buscarPorNome(nome).convertToClienteResponseDTO();
+//    }
 
 }

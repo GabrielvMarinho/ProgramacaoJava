@@ -58,13 +58,13 @@ public class ContaService {
         repository.deleteById(id);
     }
 
-    private Specification<Conta> filtroId(Integer id){
-        return ((root,
-                 query,
-                 criteriaBuilder) -> {
-            criteriaBuilder.equal(root.get("id"), id);
-        });
-    }
+//    private Specification<Conta> filtroId(Integer id){
+//        return ((root,
+//                 query,
+//                 criteriaBuilder) -> {
+//            criteriaBuilder.equal(root.get("id"), id);
+//        });
+//    }
 
 
     public Conta alterarLimite(Integer id, Double limite) {
@@ -72,9 +72,9 @@ public class ContaService {
         conta.setLimite(limite);
         return repository.save(conta);
     }
-    public List<Conta> buscarContasFiltros(
-            String nomeTitular, Integer numero
-    ) {
-        return repository.findByTitular_NomeContainsAndNumeroOrderByNumero(nomeTitular, numero);
-    }
+//    public List<Conta> buscarContasFiltros(
+//            String nomeTitular, Integer numero
+//    ) {
+//        return repository.findByTitular_NomeContainsAndNumeroOrderByNumero(nomeTitular, numero);
+//    }
 }

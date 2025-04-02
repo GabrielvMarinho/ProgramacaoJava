@@ -36,6 +36,7 @@ public class ContaController {
     @GetMapping
     public List<ContaResponseDTO> getContas() {
         List<Conta> contas = service.getContas();
+
         return contas.stream().map(Conta::convertToContaResponseDTO).toList();
     }
 
@@ -78,12 +79,12 @@ public class ContaController {
     }
 
 
-    public List<ContaResponseDTO> buscarPorFiltro(@RequestParam String titular,
-                                                  @RequestParam Integer numero){
-        List<Conta> contaList = service.buscarContasFiltros(titular, numero);
-        return contaList
-                .stream().map(conta -> conta.convertToContaResponseDTO()).toList();
-    }
+//    public List<ContaResponseDTO> buscarPorFiltro(@RequestParam String titular,
+//                                                  @RequestParam Integer numero){
+//        List<Conta> contaList = service.buscarContasFiltros(titular, numero);
+//        return contaList
+//                .stream().map(conta -> conta.convertToContaResponseDTO()).toList();
+//    }
 
 }
 

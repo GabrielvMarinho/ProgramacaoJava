@@ -1,0 +1,34 @@
+version: '3.8'
+
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userdb
+      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+
+
+  api:
+    image: springbootapp
+    container_name: springbootapp
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/userdb  # Nome do banco corrigido
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "9091:9090"
+    depends_on:
+      - db
+
+
+volumes:
+  mysql_data:

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ContaRepository extends JpaRepository<Conta, Integer>, JpaSpecificationsExecutor<Conta> {
-    List<Conta> findByTitular_NomeContainsAndNumeroOrderByNumero(String nome, Integer numero);
+public interface ContaRepository extends JpaRepository<Conta, Integer> {
+//    List<Conta> findByTitular_NomeContainsAndNumeroOrderByNumero(String nome, Integer numero);
 
     List<Conta> findBySaldoBetween(Double min, Double max);
 
