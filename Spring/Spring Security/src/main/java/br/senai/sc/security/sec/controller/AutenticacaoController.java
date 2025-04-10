@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,6 @@ public class AutenticacaoController {
                         HttpServletRequest request,
                         HttpServletResponse response){
         //lógica para login
-
         //instanciando objeto que implementa authentication
         //poderiamos criar um outro objeto que implementa authentication por exemplo
         Authentication auth = new UsernamePasswordAuthenticationToken(
@@ -65,10 +65,21 @@ public class AutenticacaoController {
 //                    .getAuthentication();
 //            usuarioAutenticado.getPrincipal();
             response.setStatus(200);
+
         }else{
             response.setStatus(401);
         }
 
     }
+    @GetMapping("/user")
+    public Object usuarioLogado(HttpServletRequest request){
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        secRepository.saveContext(SecurityContextHolder.createEmptyContext(), request, response);
+    }
+
 
 }

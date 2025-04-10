@@ -12,16 +12,13 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - "3307:3306"
-#    volumes:
-#      - mysql_data:/var/lib/mysql
-
 
   api:
     image: springbootapp
     container_name: springbootapp
     restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/userdb  # Nome do banco corrigido
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/userdb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     ports:
